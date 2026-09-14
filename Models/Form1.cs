@@ -1,16 +1,15 @@
-using System;
-using System.Windows.Forms; // <-- 1. IMPRESCINDIBLE PARA RECONOCER LA VENTANA
-using Biblioteca.Models;
-
-namespace Biblioteca // <-- 2. DEBE SER 'Biblioteca', NO 'Biblioteca.Models'
+namespace Biblioteca
 {
-    public partial class Form1 : Form // <-- 3. DEBE HEREDAR DE 'Form'
+    public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
         }
 
-        // Aquí continúa el resto de los eventos del formulario...
+        private void label51_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
