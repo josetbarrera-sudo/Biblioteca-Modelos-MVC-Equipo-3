@@ -11,46 +11,27 @@ using System;
 
 namespace Biblioteca.Models
 {
-    public class Administrador : Persona
+    public class Autores : Persona
     {
-        private int _nivelAcceso;
-        private string _departamento = string.Empty;
-        private DateTime _fechaIngreso;
+        private string _nacionalidad = string.Empty;
         private string _rutaImagen = string.Empty;
         private bool _estado;
 
-        public int NivelAcceso
+        public string Nacionalidad
         {
-            get => _nivelAcceso;
-            set
-            {
-                if (value < 1 || value > 5)
-                    throw new ArgumentException("El nivel de acceso debe estar entre 1 y 5.");
-                _nivelAcceso = value;
-            }
-        }
-
-        public string Departamento
-        {
-            get => _departamento;
+            get => _nacionalidad;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("El departamento no puede estar vacío.");
-                _departamento = value.Trim();
+                    throw new ArgumentException("La nacionalidad no puede estar vacía.");
+                _nacionalidad = value.Trim();
             }
-        }
-
-        public DateTime FechaIngreso
-        {
-            get => _fechaIngreso;
-            set => _fechaIngreso = value;
         }
 
         public string RutaImagen
         {
             get => _rutaImagen;
-            set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "admin_default.png" : value.Trim();
+            set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "autor_default.png" : value.Trim();
         }
 
         public bool Estado
@@ -59,42 +40,72 @@ namespace Biblioteca.Models
             set => _estado = value;
         }
 
-        public Administrador() : base()
+        public int Codigo
         {
-            this.NivelAcceso = 3;
-            this.Departamento = "General";
-            this.FechaIngreso = DateTime.Now;
-            this.RutaImagen = "admin_default.png";
+            get => Id;
+            set => Id = value;
+        }
+
+        public string Nombre
+        {
+            get => NombreCompleto;
+            set => NombreCompleto = value;
+        }
+
+        public Autores() : base()
+        {
+            this.NombreCompleto = "Autor Anónimo";
+            this.Nacionalidad = "Desconocida";
+            this.RutaImagen = "autor_default.png";
             this.Estado = true;
         }
 
-        public Administrador(int idPersona, string nombreCompleto, int edad, string correo, int nivelAcceso, string departamento, DateTime fechaIngreso, string rutaImagen, bool estado)
+        public Autores(int idPersona, string nombreCompleto, int edad, string correo, string nacionalidad, string rutaImagen, bool estado)
             : base(idPersona, nombreCompleto, edad, correo)
         {
-            this.NivelAcceso = nivelAcceso;
-            this.Departamento = departamento;
-            this.FechaIngreso = fechaIngreso;
+            this.Nacionalidad = nacionalidad;
             this.RutaImagen = rutaImagen;
             this.Estado = estado;
         }
 
-        public bool TienePermiso()
+        public Autores(int codigo, string nombre, string nacionalidad)
+            : base(codigo, nombre, 40, "autor@biblioteca.com")
         {
-            int nivelMinimoEstandar = 3;
-            return this.NivelAcceso >= nivelMinimoEstandar;
+            this.Nacionalidad = nacionalidad;
+            this.RutaImagen = "autor_default.png";
+            this.Estado = true;
         }
 
-        public bool TienePermiso(int nivelRequerido)
+        public Autores(int codigo, string nombre, string nacionalidad, string extra)
+            : this(codigo, nombre, nacionalidad) { }
+
+        public Autores(int codigo, string nombre, string nacionalidad, int extra)
+            : this(codigo, nombre, nacionalidad) { }
+
+        public decimal CalcularRegalias(decimal ventasTotales)
         {
-            if (nivelRequerido < 1 || nivelRequerido > 5)
-                throw new ArgumentException("El nivel requerido debe estar entre 1 y 5.");
-            return this.NivelAcceso >= nivelRequerido;
+            if (ventasTotales < 0)
+                throw new ArgumentException("Las ventas totales no pueden ser negativas.");
+            return ventasTotales * 0.10m;
+        }
+
+        public decimal CalcularRegalias(decimal ventasTotales, decimal porcentaje)
+        {
+            if (ventasTotales < 0)
+                throw new ArgumentException("Las ventas totales no pueden ser negativas.");
+            if (porcentaje < 0)
+                porcentaje = 0;
+            return ventasTotales * (porcentaje / 100m);
+        }
+
+        public void ImprimirA()
+        {
+            Console.WriteLine($"   Nombre: {NombreCompleto}\n   Código: {Id}\n   Nacionalidad: {Nacionalidad}");
         }
 
         public override string ToString()
         {
-            string estadoStr = Estado ? "Activo" : "Inactivo";
-            return $"[Administrador #{IdPersona}] {NombreCompleto} | Depto: {Departamento} | Nivel: {NivelAcceso} | Estado: {estadoStr}";
+            return $"Código: {Id} | Autor: {NombreCompleto} | Nacionalidad: {Nacionalidad} | Estado: {(Estado ? "Activo" : "Inactivo")}";
         }
     }
 }

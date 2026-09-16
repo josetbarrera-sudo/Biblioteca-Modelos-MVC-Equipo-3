@@ -11,23 +11,11 @@ using System;
 
 namespace Biblioteca.Models
 {
-    public class Persona
+    public class Persona : EntidadBase
     {
-        protected int _idPersona;
         protected string _nombreCompleto = string.Empty;
         protected int _edad;
         protected string _correo = string.Empty;
-
-        public int IdPersona
-        {
-            get => _idPersona;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentException("El ID de la persona debe ser un número positivo mayor a 0.");
-                _idPersona = value;
-            }
-        }
 
         public string NombreCompleto
         {
@@ -63,16 +51,16 @@ namespace Biblioteca.Models
         }
 
         public Persona()
+            : base(1, DateTime.Now, true)
         {
-            this.IdPersona = 1;
             this.NombreCompleto = "Sin Nombre";
             this.Edad = 18;
             this.Correo = "correo@ejemplo.com";
         }
 
         public Persona(int idPersona, string nombreCompleto, int edad, string correo)
+            : base(idPersona, DateTime.Now, true)
         {
-            this.IdPersona = idPersona;
             this.NombreCompleto = nombreCompleto;
             this.Edad = edad;
             this.Correo = correo;
@@ -80,7 +68,7 @@ namespace Biblioteca.Models
 
         public virtual string ObtenerPerfil()
         {
-            return $"ID: {this.IdPersona} | Nombre: {this.NombreCompleto}";
+            return $"ID: {this.Id} | Nombre: {this.NombreCompleto}";
         }
 
         public virtual string ObtenerPerfil(bool incluirContacto)

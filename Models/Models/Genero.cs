@@ -8,27 +8,17 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Genero
+    public class Genero : EntidadBase, IAlmacenamientoCRUD
     {
-        private int _idGenero;
+        private static List<Genero> _listaGeneros = new List<Genero>();
+
         private string _nombre = string.Empty;
         private string _descripcion = string.Empty;
         private string _rutaImagen = string.Empty;
-        private bool _estado;
-
-        public int IdGenero
-        {
-            get => _idGenero;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentException("El ID del género debe ser mayor a 0.");
-                _idGenero = value;
-            }
-        }
 
         public string Nombre
         {
@@ -58,28 +48,19 @@ namespace Biblioteca.Models
             set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "genero_default.png" : value.Trim();
         }
 
-        public bool Estado
+        public Genero() : base(1, DateTime.Now, true)
         {
-            get => _estado;
-            set => _estado = value;
-        }
-
-        public Genero()
-        {
-            this.IdGenero = 1;
             this.Nombre = "General";
             this.Descripcion = "Sin descripción asignada";
             this.RutaImagen = "genero_default.png";
-            this.Estado = true;
         }
 
         public Genero(int idGenero, string nombre, string descripcion, string rutaImagen, bool estado)
+            : base(idGenero, DateTime.Now, estado)
         {
-            this.IdGenero = idGenero;
             this.Nombre = nombre;
             this.Descripcion = descripcion;
             this.RutaImagen = rutaImagen;
-            this.Estado = estado;
         }
 
         public string GenerarEtiqueta()
@@ -94,10 +75,55 @@ namespace Biblioteca.Models
             return $"#{prefijo.ToUpper()}_{Nombre.ToUpper().Replace(" ", "")}";
         }
 
+        public void InsertarRegistro(object objeto)
+        {
+            if (objeto is Genero genero)
+                _listaGeneros.Add(genero);
+            else
+                throw new ArgumentException("El objeto no es del tipo Genero.");
+        }
+
+        public object ConsultarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            return _listaGeneros.Find(g => g.Id == idBuscado);
+        }
+
+        public void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Genero generoActualizado)
+            {
+                Genero existente = _listaGeneros.Find(g => g.Id == generoActualizado.Id);
+                if (existente != null)
+                {
+                    int indice = _listaGeneros.IndexOf(existente);
+                    _listaGeneros[indice] = generoActualizado;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró el género a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Genero.");
+            }
+        }
+
+        public void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Genero existente = _listaGeneros.Find(g => g.Id == idBuscado);
+            if (existente != null)
+                _listaGeneros.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró el género a eliminar.");
+        }
+
         public override string ToString()
         {
-            string estadoStr = Estado ? "Activo" : "Inactivo";
-            return $"[Género #{IdGenero}] {Nombre} | {Descripcion} | Estado: {estadoStr}";
+            string estadoStr = EsActivo ? "Activo" : "Inactivo";
+            return $"[Género #{Id}] {Nombre} | {Descripcion} | Estado: {estadoStr}";
         }
     }
 }

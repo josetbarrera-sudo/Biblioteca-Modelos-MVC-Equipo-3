@@ -8,33 +8,23 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Usuarios : Persona
+    public class Usuarios : Persona, IAlmacenamientoCRUD
     {
-        private int _idUsuario;
+        private static List<Usuarios> _listaUsuarios = new List<Usuarios>();
+
         private int _librosPrestados;
         private decimal _multaAcumulada;
         private bool _esProfesor;
         private string _rutaImagen = string.Empty;
-        private bool _estado;
 
         public string Nombre
         {
             get => NombreCompleto;
             set => NombreCompleto = value;
-        }
-
-        public int IdUsuario
-        {
-            get => _idUsuario;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentException("El ID del usuario debe ser mayor a 0.");
-                _idUsuario = value;
-            }
         }
 
         public int LibrosPrestados
@@ -71,42 +61,31 @@ namespace Biblioteca.Models
             set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "usuario_default.png" : value.Trim();
         }
 
-        public bool Estado
-        {
-            get => _estado;
-            set => _estado = value;
-        }
-
         public Usuarios() : base()
         {
-            this.IdUsuario = 1;
             this.LibrosPrestados = 0;
             this.MultaAcumulada = 0m;
             this.EsProfesor = false;
             this.RutaImagen = "usuario_default.png";
-            this.Estado = true;
         }
 
         public Usuarios(int idUsuario, string nombre, int librosPrestados, decimal multaAcumulada, bool esProfesor)
-            : base(1, nombre, 18, "correo@ejemplo.com")
+            : base(idUsuario, nombre, 18, "correo@ejemplo.com")
         {
-            this.IdUsuario = idUsuario;
             this.LibrosPrestados = librosPrestados;
             this.MultaAcumulada = multaAcumulada;
             this.EsProfesor = esProfesor;
             this.RutaImagen = "usuario_default.png";
-            this.Estado = true;
         }
 
-        public Usuarios(int idPersona, string nombreCompleto, int edad, string correo, int idUsuario, int librosPrestados, decimal multaAcumulada, bool esProfesor, string rutaImagen, bool estado)
+        public Usuarios(int idPersona, string nombreCompleto, int edad, string correo, int librosPrestados, decimal multaAcumulada, bool esProfesor, string rutaImagen, bool estado)
             : base(idPersona, nombreCompleto, edad, correo)
         {
-            this.IdUsuario = idUsuario;
             this.LibrosPrestados = librosPrestados;
             this.MultaAcumulada = multaAcumulada;
             this.EsProfesor = esProfesor;
             this.RutaImagen = rutaImagen;
-            this.Estado = estado;
+            this.EsActivo = estado;
         }
 
         public decimal CalcularMultaTotal()
@@ -123,11 +102,56 @@ namespace Biblioteca.Models
             return this.MultaAcumulada + (diasRetrasoNuevos * tarifaDiariaPorMora);
         }
 
+        public void InsertarRegistro(object objeto)
+        {
+            if (objeto is Usuarios usuario)
+                _listaUsuarios.Add(usuario);
+            else
+                throw new ArgumentException("El objeto no es del tipo Usuarios.");
+        }
+
+        public object ConsultarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            return _listaUsuarios.Find(u => u.Id == idBuscado);
+        }
+
+        public void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Usuarios usuarioActualizado)
+            {
+                Usuarios existente = _listaUsuarios.Find(u => u.Id == usuarioActualizado.Id);
+                if (existente != null)
+                {
+                    int indice = _listaUsuarios.IndexOf(existente);
+                    _listaUsuarios[indice] = usuarioActualizado;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró el usuario a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Usuarios.");
+            }
+        }
+
+        public void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Usuarios existente = _listaUsuarios.Find(u => u.Id == idBuscado);
+            if (existente != null)
+                _listaUsuarios.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró el usuario a eliminar.");
+        }
+
         public override string ToString()
         {
             string tipoUsuario = EsProfesor ? "Profesor" : "Estudiante";
-            string estadoStr = Estado ? "Activo" : "Inactivo";
-            return $"[Usuario #{IdUsuario}] {NombreCompleto} ({tipoUsuario}) | Libros: {LibrosPrestados} | Multa: ${MultaAcumulada:F2} | Estado: {estadoStr}";
+            string estadoStr = EsActivo ? "Activo" : "Inactivo";
+            return $"[Usuario #{Id}] {NombreCompleto} ({tipoUsuario}) | Libros: {LibrosPrestados} | Multa: ${MultaAcumulada:F2} | Estado: {estadoStr}";
         }
     }
 }

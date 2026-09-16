@@ -8,28 +8,19 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Prestamos
+    public class Prestamos : EntidadBase, IAlmacenamientoCRUD
     {
-        private int _id;
+        private static List<Prestamos> _listaPrestamos = new List<Prestamos>();
+
         private Usuarios _usuario = new Usuarios();
         private Libros[] _librosPrestados = new Libros[3];
         private DateTime _fechaEntrega;
         private bool _status;
         private string _rutaImagen = string.Empty;
-        private bool _estado;
-
-        public int Id
-        {
-            get => _id;
-            set
-            {
-                if (value <= 0) throw new ArgumentException("ID debe ser mayor a 0.");
-                _id = value;
-            }
-        }
 
         public Usuarios Usuario { get => _usuario; set => _usuario = value ?? new Usuarios(); }
         public Libros[] LibrosPrestados { get => _librosPrestados; set => _librosPrestados = value ?? new Libros[3]; }
@@ -42,31 +33,22 @@ namespace Biblioteca.Models
             set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "prestamo_default.png" : value.Trim();
         }
 
-        public bool Estado
+        public Prestamos() : base(1, DateTime.Now, true)
         {
-            get => _estado;
-            set => _estado = value;
-        }
-
-        public Prestamos()
-        {
-            this.Id = 1;
             this._usuario = new Usuarios();
             this.FechaEntrega = DateTime.Now.AddDays(7);
             this.Status = true;
             this.RutaImagen = "prestamo_default.png";
-            this.Estado = true;
         }
 
         public Prestamos(int id, Usuarios usuario, Libros libroInicial, string rutaImagen, bool estado)
+            : base(id, DateTime.Now, estado)
         {
-            this.Id = id;
             this._usuario = usuario ?? new Usuarios();
             this.LibrosPrestados[0] = libroInicial;
             this.FechaEntrega = DateTime.Now.AddDays(7);
             this.Status = true;
             this.RutaImagen = rutaImagen;
-            this.Estado = estado;
         }
 
         public string ImprimirP()
@@ -78,6 +60,51 @@ namespace Biblioteca.Models
         public string ImprimirP(object parametroExtra)
         {
             return ImprimirP();
+        }
+
+        public void InsertarRegistro(object objeto)
+        {
+            if (objeto is Prestamos prestamo)
+                _listaPrestamos.Add(prestamo);
+            else
+                throw new ArgumentException("El objeto no es del tipo Prestamos.");
+        }
+
+        public object ConsultarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            return _listaPrestamos.Find(p => p.Id == idBuscado);
+        }
+
+        public void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Prestamos prestamoActualizado)
+            {
+                Prestamos existente = _listaPrestamos.Find(p => p.Id == prestamoActualizado.Id);
+                if (existente != null)
+                {
+                    int indice = _listaPrestamos.IndexOf(existente);
+                    _listaPrestamos[indice] = prestamoActualizado;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró el préstamo a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Prestamos.");
+            }
+        }
+
+        public void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Prestamos existente = _listaPrestamos.Find(p => p.Id == idBuscado);
+            if (existente != null)
+                _listaPrestamos.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró el préstamo a eliminar.");
         }
 
         public override string ToString() => ImprimirP();

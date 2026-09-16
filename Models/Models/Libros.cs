@@ -8,18 +8,20 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Libros
+    public class Libros : EntidadBase, IAlmacenamientoCRUD
     {
+        private static List<Libros> _listaLibros = new List<Libros>();
+
         private string _isbn = string.Empty;
         private string _titulo = string.Empty;
         private decimal _precioRentaDiaria;
         private int _copiasDisponibles;
         private bool _esNovedad;
         private string _rutaImagen = string.Empty;
-        private bool _estado;
 
         public string ISBN
         {
@@ -77,13 +79,7 @@ namespace Biblioteca.Models
             set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "libro_default.png" : value.Trim();
         }
 
-        public bool Estado
-        {
-            get => _estado;
-            set => _estado = value;
-        }
-
-        public Libros()
+        public Libros() : base(1, DateTime.Now, true)
         {
             this.ISBN = "000-0000000000";
             this.Titulo = "Sin Título";
@@ -91,10 +87,10 @@ namespace Biblioteca.Models
             this.CopiasDisponibles = 1;
             this.EsNovedad = false;
             this.RutaImagen = "libro_default.png";
-            this.Estado = true;
         }
 
-        public Libros(string isbn, string titulo, decimal precioRentaDiaria, int copiasDisponibles, bool esNovedad, string rutaImagen, bool estado)
+        public Libros(int id, string isbn, string titulo, decimal precioRentaDiaria, int copiasDisponibles, bool esNovedad, string rutaImagen, bool estado)
+            : base(id, DateTime.Now, estado)
         {
             this.ISBN = isbn;
             this.Titulo = titulo;
@@ -102,7 +98,6 @@ namespace Biblioteca.Models
             this.CopiasDisponibles = copiasDisponibles;
             this.EsNovedad = esNovedad;
             this.RutaImagen = rutaImagen;
-            this.Estado = estado;
         }
 
         public decimal CalcularCostoRenta(int dias)
@@ -123,10 +118,55 @@ namespace Biblioteca.Models
             return costoBase - descuento;
         }
 
+        public void InsertarRegistro(object objeto)
+        {
+            if (objeto is Libros libro)
+                _listaLibros.Add(libro);
+            else
+                throw new ArgumentException("El objeto no es del tipo Libros.");
+        }
+
+        public object ConsultarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            return _listaLibros.Find(l => l.Id == idBuscado);
+        }
+
+        public void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Libros libroActualizado)
+            {
+                Libros existente = _listaLibros.Find(l => l.Id == libroActualizado.Id);
+                if (existente != null)
+                {
+                    int indice = _listaLibros.IndexOf(existente);
+                    _listaLibros[indice] = libroActualizado;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró el libro a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Libros.");
+            }
+        }
+
+        public void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Libros existente = _listaLibros.Find(l => l.Id == idBuscado);
+            if (existente != null)
+                _listaLibros.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró el libro a eliminar.");
+        }
+
         public override string ToString()
         {
             string novedadStr = EsNovedad ? " (Novedad)" : "";
-            string estadoStr = Estado ? "Disponible" : "No disponible";
+            string estadoStr = EsActivo ? "Disponible" : "No disponible";
             return $"[ISBN: {ISBN}] {Titulo}{novedadStr} | Stock: {CopiasDisponibles} | Precio/Día: ${PrecioRentaDiaria:F2} | Estado: {estadoStr}";
         }
     }

@@ -1,12 +1,3 @@
-/*
- * ENCABEZADO DE AUTORÍA
- * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
- */
-
 using System;
 using Biblioteca.Models;
 
@@ -20,6 +11,7 @@ namespace Biblioteca
             ProbarValidacionesYExcepciones();
             ProbarSobrecargaMetodos();
             ProbarCamposObligatorios();
+            ProbarOperacionesCRUD();
 
             ImprimirResultadoFinal();
 
@@ -107,7 +99,49 @@ namespace Biblioteca
             Genero g = new Genero(2, "Fantasía", "Libros épicos", "fantasia.png", true);
             Console.WriteLine($"Entidad: {g.Nombre}");
             Console.WriteLine($" - Campo RutaImagen: {g.RutaImagen}");
-            Console.WriteLine($" - Campo Estado: {(g.Estado ? "Activo" : "Inactivo")}");
+            g.EsActivo = true;
+        }
+
+        private static void ProbarOperacionesCRUD()
+        {
+            EncabezadoSeccion("5. PRUEBA DE OPERACIONES CRUD (IAlmacenamientoCRUD)");
+
+            Genero generoTerror = new Genero(10, "Terror", "Libros de suspenso y miedo", "terror.png", true);
+            generoTerror.InsertarRegistro(generoTerror);
+            Console.WriteLine($"[INSERTAR] Género agregado: {generoTerror}");
+
+            Genero generoComedia = new Genero(11, "Comedia", "Libros humorísticos", "comedia.png", true);
+            generoComedia.InsertarRegistro(generoComedia);
+            Console.WriteLine($"[INSERTAR] Género agregado: {generoComedia}");
+
+            Console.WriteLine();
+            object encontrado = generoTerror.ConsultarRegistro("10");
+            Console.WriteLine(encontrado != null
+                ? $"[CONSULTAR] Encontrado con ID 10: {encontrado}"
+                : "[CONSULTAR] No se encontró el registro con ID 10.");
+
+            Console.WriteLine();
+            Genero generoActualizado = new Genero(10, "Terror Psicológico", "Ahora más específico", "terror2.png", true);
+            generoTerror.ActualizarRegistro(generoActualizado);
+            object actualizado = generoTerror.ConsultarRegistro("10");
+            Console.WriteLine($"[ACTUALIZAR] Registro con ID 10 ahora es: {actualizado}");
+
+            Console.WriteLine();
+            generoTerror.EliminarRegistro("11");
+            object eliminado = generoTerror.ConsultarRegistro("11");
+            Console.WriteLine(eliminado == null
+                ? "[ELIMINAR] El registro con ID 11 fue eliminado correctamente."
+                : "[ELIMINAR] Algo salió mal, el registro sigue existiendo.");
+
+            Console.WriteLine();
+            Usuarios usuario1 = new Usuarios(20, "Ana Torres", 2, 50m, false);
+            usuario1.InsertarRegistro(usuario1);
+            Console.WriteLine($"[INSERTAR] Usuario agregado: {usuario1}");
+
+            object usuarioConsultado = usuario1.ConsultarRegistro("20");
+            Console.WriteLine(usuarioConsultado != null
+                ? $"[CONSULTAR] Usuario encontrado: {usuarioConsultado}"
+                : "[CONSULTAR] No se encontró el usuario.");
         }
 
         private static void EncabezadoSeccion(string titulo)
