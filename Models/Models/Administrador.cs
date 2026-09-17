@@ -6,32 +6,53 @@
  * 2. TORRES Barrera Jose Angel
  * 3. MACÍAS Cruz Meredith Miranda
  */
-
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Autores : Persona
+    public class Administrador : Persona, IAlmacenamientoCRUD
     {
-        private string _nacionalidad = string.Empty;
+        private static List<Administrador> _listaAdministradores = new List<Administrador>();
+
+        private int _nivelAcceso;
+        private string _departamento = string.Empty;
+        private DateTime _fechaIngreso;
         private string _rutaImagen = string.Empty;
         private bool _estado;
 
-        public string Nacionalidad
+        public int NivelAcceso
         {
-            get => _nacionalidad;
+            get => _nivelAcceso;
+            set
+            {
+                if (value < 1 || value > 5)
+                    throw new ArgumentException("El nivel de acceso debe estar entre 1 y 5.");
+                _nivelAcceso = value;
+            }
+        }
+
+        public string Departamento
+        {
+            get => _departamento;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("La nacionalidad no puede estar vacía.");
-                _nacionalidad = value.Trim();
+                    throw new ArgumentException("El departamento no puede estar vacío.");
+                _departamento = value.Trim();
             }
+        }
+
+        public DateTime FechaIngreso
+        {
+            get => _fechaIngreso;
+            set => _fechaIngreso = value;
         }
 
         public string RutaImagen
         {
             get => _rutaImagen;
-            set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "autor_default.png" : value.Trim();
+            set => _rutaImagen = string.IsNullOrWhiteSpace(value) ? "admin_default.png" : value.Trim();
         }
 
         public bool Estado
@@ -40,72 +61,90 @@ namespace Biblioteca.Models
             set => _estado = value;
         }
 
-        public int Codigo
+        public Administrador() : base()
         {
-            get => Id;
-            set => Id = value;
-        }
-
-        public string Nombre
-        {
-            get => NombreCompleto;
-            set => NombreCompleto = value;
-        }
-
-        public Autores() : base()
-        {
-            this.NombreCompleto = "Autor Anónimo";
-            this.Nacionalidad = "Desconocida";
-            this.RutaImagen = "autor_default.png";
+            this.NivelAcceso = 3;
+            this.Departamento = "General";
+            this.FechaIngreso = DateTime.Now;
+            this.RutaImagen = "admin_default.png";
             this.Estado = true;
         }
 
-        public Autores(int idPersona, string nombreCompleto, int edad, string correo, string nacionalidad, string rutaImagen, bool estado)
+        public Administrador(int idPersona, string nombreCompleto, int edad, string correo, int nivelAcceso, string departamento, DateTime fechaIngreso, string rutaImagen, bool estado)
             : base(idPersona, nombreCompleto, edad, correo)
         {
-            this.Nacionalidad = nacionalidad;
+            this.NivelAcceso = nivelAcceso;
+            this.Departamento = departamento;
+            this.FechaIngreso = fechaIngreso;
             this.RutaImagen = rutaImagen;
             this.Estado = estado;
         }
 
-        public Autores(int codigo, string nombre, string nacionalidad)
-            : base(codigo, nombre, 40, "autor@biblioteca.com")
+        public bool TienePermiso()
         {
-            this.Nacionalidad = nacionalidad;
-            this.RutaImagen = "autor_default.png";
-            this.Estado = true;
+            int nivelMinimoEstandar = 3;
+            return this.NivelAcceso >= nivelMinimoEstandar;
         }
 
-        public Autores(int codigo, string nombre, string nacionalidad, string extra)
-            : this(codigo, nombre, nacionalidad) { }
-
-        public Autores(int codigo, string nombre, string nacionalidad, int extra)
-            : this(codigo, nombre, nacionalidad) { }
-
-        public decimal CalcularRegalias(decimal ventasTotales)
+        public bool TienePermiso(int nivelRequerido)
         {
-            if (ventasTotales < 0)
-                throw new ArgumentException("Las ventas totales no pueden ser negativas.");
-            return ventasTotales * 0.10m;
+            if (nivelRequerido < 1 || nivelRequerido > 5)
+                throw new ArgumentException("El nivel requerido debe estar entre 1 y 5.");
+            return this.NivelAcceso >= nivelRequerido;
         }
 
-        public decimal CalcularRegalias(decimal ventasTotales, decimal porcentaje)
+        // ---- IAlmacenamientoCRUD (implementación propia, misma lógica que Usuarios) ----
+        public new void InsertarRegistro(object objeto)
         {
-            if (ventasTotales < 0)
-                throw new ArgumentException("Las ventas totales no pueden ser negativas.");
-            if (porcentaje < 0)
-                porcentaje = 0;
-            return ventasTotales * (porcentaje / 100m);
+            if (objeto is Administrador admin)
+                _listaAdministradores.Add(admin);
+            else
+                throw new ArgumentException("El objeto no es del tipo Administrador.");
         }
 
-        public void ImprimirA()
+        public new object ConsultarRegistro(string id)
         {
-            Console.WriteLine($"   Nombre: {NombreCompleto}\n   Código: {Id}\n   Nacionalidad: {Nacionalidad}");
+            int idBuscado = int.Parse(id);
+            return _listaAdministradores.Find(a => a.Id == idBuscado);
         }
+
+        public new void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Administrador adminActualizado)
+            {
+                Administrador existente = _listaAdministradores.Find(a => a.Id == adminActualizado.Id);
+                if (existente != null)
+                {
+                    int indice = _listaAdministradores.IndexOf(existente);
+                    _listaAdministradores[indice] = adminActualizado;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró el administrador a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Administrador.");
+            }
+        }
+
+        public new void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Administrador existente = _listaAdministradores.Find(a => a.Id == idBuscado);
+            if (existente != null)
+                _listaAdministradores.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró el administrador a eliminar.");
+        }
+
+        public static List<Administrador> ObtenerTodos() => _listaAdministradores;
 
         public override string ToString()
         {
-            return $"Código: {Id} | Autor: {NombreCompleto} | Nacionalidad: {Nacionalidad} | Estado: {(Estado ? "Activo" : "Inactivo")}";
+            string estadoStr = Estado ? "Activo" : "Inactivo";
+            return $"[Administrador #{Id}] {NombreCompleto} | Depto: {Departamento} | Nivel: {NivelAcceso} | Estado: {estadoStr}";
         }
     }
 }

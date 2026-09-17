@@ -163,6 +163,8 @@ namespace Biblioteca.Models
                 throw new ArgumentException("No se encontró el libro a eliminar.");
         }
 
+        public static List<Libros> ObtenerTodos() => _listaLibros;
+
         public override string ToString()
         {
             string novedadStr = EsNovedad ? " (Novedad)" : "";

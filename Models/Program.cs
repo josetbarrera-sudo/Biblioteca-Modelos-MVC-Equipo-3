@@ -7,6 +7,12 @@ namespace Biblioteca
     {
         static void Main()
         {
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
+        }
+
+        private static void EjecutarPruebasDeConsola()
+        {
             ProbarConstructores();
             ProbarValidacionesYExcepciones();
             ProbarSobrecargaMetodos();

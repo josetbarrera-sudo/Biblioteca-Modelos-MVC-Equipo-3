@@ -147,6 +147,8 @@ namespace Biblioteca.Models
                 throw new ArgumentException("No se encontró el usuario a eliminar.");
         }
 
+        public static List<Usuarios> ObtenerTodos() => _listaUsuarios;
+
         public override string ToString()
         {
             string tipoUsuario = EsProfesor ? "Profesor" : "Estudiante";

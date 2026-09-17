@@ -6,13 +6,15 @@
  * 2. TORRES Barrera Jose Angel
  * 3. MACÍAS Cruz Meredith Miranda
  */
-
 using System;
+using System.Collections.Generic;
 
 namespace Biblioteca.Models
 {
-    public class Persona : EntidadBase
+    public class Persona : EntidadBase, IAlmacenamientoCRUD
     {
+        private static List<Persona> _listaPersonas = new List<Persona>();
+
         protected string _nombreCompleto = string.Empty;
         protected int _edad;
         protected string _correo = string.Empty;
@@ -76,6 +78,54 @@ namespace Biblioteca.Models
             string perfilBase = ObtenerPerfil();
             return incluirContacto ? $"{perfilBase} | Correo: {this.Correo} | Edad: {this.Edad}" : perfilBase;
         }
+
+        // ---- IAlmacenamientoCRUD ----
+        public void InsertarRegistro(object objeto)
+        {
+            if (objeto is Persona persona)
+                _listaPersonas.Add(persona);
+            else
+                throw new ArgumentException("El objeto no es del tipo Persona.");
+        }
+
+        public object ConsultarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            return _listaPersonas.Find(p => p.Id == idBuscado);
+        }
+
+        public void ActualizarRegistro(object objeto)
+        {
+            if (objeto is Persona personaActualizada)
+            {
+                Persona existente = _listaPersonas.Find(p => p.Id == personaActualizada.Id);
+                if (existente != null)
+                {
+                    int indice = _listaPersonas.IndexOf(existente);
+                    _listaPersonas[indice] = personaActualizada;
+                }
+                else
+                {
+                    throw new ArgumentException("No se encontró la persona a actualizar.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("El objeto no es del tipo Persona.");
+            }
+        }
+
+        public void EliminarRegistro(string id)
+        {
+            int idBuscado = int.Parse(id);
+            Persona existente = _listaPersonas.Find(p => p.Id == idBuscado);
+            if (existente != null)
+                _listaPersonas.Remove(existente);
+            else
+                throw new ArgumentException("No se encontró la persona a eliminar.");
+        }
+
+        public static List<Persona> ObtenerTodos() => _listaPersonas;
 
         public override string ToString()
         {
