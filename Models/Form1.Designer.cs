@@ -774,7 +774,7 @@
             // 
             cbxEstado.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstado.FormattingEnabled = true;
-            cbxEstado.Items.AddRange(new object[] { "", "Disposnible", "Prestado", "Reservado", "Perdido" });
+            cbxEstado.Items.AddRange(new object[] { "", "Disponible", "Prestado", "Reservado", "Perdido" });
             cbxEstado.Location = new Point(128, 191);
             cbxEstado.Name = "cbxEstado";
             cbxEstado.Size = new Size(253, 27);
@@ -1144,7 +1144,6 @@
             // 
             // txbInfoPres
             // 
-            txbInfoPres.Enabled = false;
             txbInfoPres.Location = new Point(30, 54);
             txbInfoPres.Multiline = true;
             txbInfoPres.Name = "txbInfoPres";
@@ -1275,7 +1274,7 @@
             // 
             cbxEstadoLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoLi.FormattingEnabled = true;
-            cbxEstadoLi.Items.AddRange(new object[] { "", "Disposnible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoLi.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
             cbxEstadoLi.Location = new Point(128, 232);
             cbxEstadoLi.Name = "cbxEstadoLi";
             cbxEstadoLi.Size = new Size(253, 27);
@@ -1563,7 +1562,7 @@
             // 
             cbxEstadoPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoPer.FormattingEnabled = true;
-            cbxEstadoPer.Items.AddRange(new object[] { "", "Disposnible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoPer.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
             cbxEstadoPer.Location = new Point(126, 200);
             cbxEstadoPer.Name = "cbxEstadoPer";
             cbxEstadoPer.Size = new Size(253, 27);
@@ -2498,7 +2497,7 @@
             // 
             cbxEstadoEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoEdi.FormattingEnabled = true;
-            cbxEstadoEdi.Items.AddRange(new object[] { "", "Disposnible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoEdi.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
             cbxEstadoEdi.Location = new Point(126, 226);
             cbxEstadoEdi.Name = "cbxEstadoEdi";
             cbxEstadoEdi.Size = new Size(253, 27);
@@ -2820,7 +2819,7 @@
             // 
             cbxEstadoAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoAdm.FormattingEnabled = true;
-            cbxEstadoAdm.Items.AddRange(new object[] { "", "Disposnible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoAdm.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
             cbxEstadoAdm.Location = new Point(474, 168);
             cbxEstadoAdm.Name = "cbxEstadoAdm";
             cbxEstadoAdm.Size = new Size(233, 27);
