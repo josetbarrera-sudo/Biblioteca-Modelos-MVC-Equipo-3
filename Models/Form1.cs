@@ -25,11 +25,23 @@ namespace Biblioteca
         private static readonly List<Genero> _generosUI = new List<Genero>();
         private static readonly List<Prestamos> _prestamosUI = new List<Prestamos>();
         private ComboBox _cbxNivelAccesoUI;
+        private Button _btnBuscarUsuarioUI;
         private Button _btnBuscarAutorUI;
         private Button _btnBuscarGeneroUI;
+        private Button _btnBuscarReservaUI;
         private Button _btnBuscarMultaUI;
+        private Button _btnLimpiarLibroUI;
+        private Button _btnLimpiarPrestamoUI;
+        private Button _btnLimpiarPersonaUI;
+        private Button _btnLimpiarEditorialUI;
+        private Button _btnLimpiarAdministradorUI;
         private readonly Dictionary<int, string> _estadoEditorialUI = new Dictionary<int, string>();
         private readonly Dictionary<int, string> _estadoAdministradorUI = new Dictionary<int, string>();
+        private readonly Dictionary<int, string> _estadoPersonaUI = new Dictionary<int, string>();
+        private readonly Dictionary<int, string> _motivoBloqueoPersonaUI = new Dictionary<int, string>();
+        private readonly HashSet<int> _usuariosBloqueadosPorMultaUI = new HashSet<int>();
+        private const int DiasLimitePagoMulta = 7;
+        private int? _personaSeleccionadaIdUI = null;
 
         public Form1()
         {
@@ -39,8 +51,22 @@ namespace Biblioteca
             ConfigurarEventos();
             ConfigurarNivelAcceso();
             ConfigurarBotonesBuscar();
+            ConfigurarBotonesLimpiar();
+            AjustarSeparacionBotonesSeisAcciones();
+            ConfigurarPersonaSinCrear();
             ConfigurarEstadosEspeciales();
+            OcultarCapturaMultaUsuario();
             InicializarDatosInterfaz();
+        }
+
+        private void ConfigurarPersonaSinCrear()
+        {
+            btnCrearPer.Visible = false;
+            btnCrearPer.Enabled = false;
+
+            // Persona queda con: Buscar -> Mostrar -> Actualizar -> Borrar -> Limpiar.
+            AjustarFilaBotones(
+                btnBuscarPer, btnMostrarPer, btnActualizarPer, btnBorrarPer, _btnLimpiarPersonaUI);
         }
 
         private void ConfigurarEventos()
@@ -111,7 +137,8 @@ namespace Biblioteca
             button16.Click += button16_Click;
 
             // Personas
-            btnCrearPer.Click += btnCrearPer_Click;
+            // El botón Crear de Persona se oculta porque Persona funciona como
+            // vista vinculada de Usuarios/Autores.
             btnBuscarPer.Click += btnBuscarPer_Click;
             btnMostrarPer.Click += btnMostrarPer_Click;
             btnActualizarPer.Click += btnActualizarPer_Click;
@@ -121,23 +148,92 @@ namespace Biblioteca
 
         private void ConfigurarBotonesBuscar()
         {
-            _btnBuscarAutorUI = CrearBotonBuscar(
-                btn_Autor_LimpiarPic,
-                "btnBuscarAutorUI",
-                btnBuscarAutorUI_Click
-            );
+            _btnBuscarUsuarioUI = CrearBotonBuscar(btnLimpiarUsuario, "btnBuscarUsuarioUI", btnBuscarUsuarioUI_Click);
+            _btnBuscarAutorUI = CrearBotonBuscar(btn_Autor_LimpiarPic, "btnBuscarAutorUI", btnBuscarAutorUI_Click);
+            _btnBuscarGeneroUI = CrearBotonBuscar(btn_GenLimpiar, "btnBuscarGeneroUI", btnBuscarGeneroUI_Click);
+            // Persona ya tiene el botón Buscar en el Designer.
+            _btnBuscarReservaUI = CrearBotonBuscar(btnModificarReserva, "btnBuscarReservaUI", btnBuscarReservaUI_Click);
+            _btnBuscarMultaUI = CrearBotonBuscar(btn_Multa_Limpiar, "btnBuscarMultaUI", btnBuscarMultaUI_Click);
+        }
 
-            _btnBuscarGeneroUI = CrearBotonBuscar(
-                btn_GenLimpiar,
-                "btnBuscarGeneroUI",
-                btnBuscarGeneroUI_Click
-            );
+        private void ConfigurarBotonesLimpiar()
+        {
+            _btnLimpiarLibroUI = CrearBotonAccion(btnBorrarLi, "btnLimpiarLibroUI", "Limpiar", btnLimpiarLibroUI_Click);
+            _btnLimpiarPrestamoUI = CrearBotonAccion(btnBorrarrPres, "btnLimpiarPrestamoUI", "Limpiar", btnLimpiarPrestamoUI_Click);
+            _btnLimpiarPersonaUI = CrearBotonAccion(btnBorrarPer, "btnLimpiarPersonaUI", "Limpiar", btnLimpiarPersonaUI_Click);
+            _btnLimpiarEditorialUI = CrearBotonAccion(btnBorarEdi, "btnLimpiarEditorialUI", "Limpiar", btnLimpiarEditorialUI_Click);
+            _btnLimpiarAdministradorUI = CrearBotonAccion(btnBorarAdm, "btnLimpiarAdministradorUI", "Limpiar", btnLimpiarAdministradorUI_Click);
+        }
 
-            _btnBuscarMultaUI = CrearBotonBuscar(
-                btn_Multa_Limpiar,
-                "btnBuscarMultaUI",
-                btnBuscarMultaUI_Click
-            );
+        private void AjustarSeparacionBotonesSeisAcciones()
+        {
+            // Estas vistas tienen seis acciones horizontales:
+            // Crear -> Buscar -> Mostrar -> Actualizar -> Borrar -> Limpiar.
+            // Se conserva la separación original entre botones, pero toda la fila
+            // se desplaza hacia la izquierda si el último botón queda pegado al borde.
+            AjustarFilaBotones(
+                btnCrearLi, btnBuscarLi, btnMostrarLi, btnActualizarLi, btnBorrarLi, _btnLimpiarLibroUI);
+
+            AjustarFilaBotones(
+                btnCrearPres, btnBuscarPres, btnMostrarPres, btnActualizarPres, btnBorrarrPres, _btnLimpiarPrestamoUI);
+
+
+            AjustarFilaBotones(
+                btnCrearEdi, btnBuscarEdi, btnMostrarEdi, btnActualizarEdi, btnBorarEdi, _btnLimpiarEditorialUI);
+
+            AjustarFilaBotones(
+                btnCrearAdm, btnBuscarAdm, btnMostrarAdm, btnActualizarAdm, btnBorarAdm, _btnLimpiarAdministradorUI);
+        }
+
+        private void AjustarFilaBotones(params Button[] botones)
+        {
+            if (botones == null || botones.Length < 2 || botones.Any(b => b == null))
+                return;
+
+            Control contenedor = botones[0].Parent;
+            if (contenedor == null)
+                return;
+
+            // Tomamos la separación que ya tenía el Designer entre los dos primeros.
+            int espacioHorizontal = botones[1].Left - botones[0].Right;
+            if (espacioHorizontal < 0)
+                espacioHorizontal = 8;
+
+            int anchoTotal = botones.Sum(b => b.Width) + espacioHorizontal * (botones.Length - 1);
+            const int margenDerecho = 40;
+            const int margenIzquierdoMinimo = 10;
+
+            // Si la fila queda demasiado cerca del borde derecho, se mueve completa
+            // hacia la izquierda, sin cambiar el espacio entre los botones.
+            int posicionMaxima = contenedor.ClientSize.Width - anchoTotal - margenDerecho;
+            int xInicial = Math.Min(botones[0].Left, posicionMaxima);
+            xInicial = Math.Max(margenIzquierdoMinimo, xInicial);
+
+            int y = botones[0].Top;
+            int x = xInicial;
+
+            foreach (Button boton in botones)
+            {
+                boton.Location = new Point(x, y);
+                x += boton.Width + espacioHorizontal;
+            }
+        }
+
+        private void OcultarCapturaMultaUsuario()
+        {
+            // La multa ya no se captura desde Usuarios.
+            // El monto se obtiene exclusivamente del módulo Multa.
+            txtMultaAcumulada.Visible = false;
+            txtMultaAcumulada.Enabled = false;
+            txtMultaAcumulada.TabStop = false;
+
+            // También ocultamos la etiqueta para que no quede un campo vacío.
+            label64.Visible = false;
+
+            // Subimos el rol para ocupar el espacio que dejó el campo eliminado.
+            chbRol.Location = new Point(chbRol.Left, label64.Top);
+
+            // Se mantiene el resto del diseño sin agregar controles nuevos.
         }
 
         private Button CrearBotonBuscar(Button referencia, string nombre, EventHandler evento)
@@ -169,6 +265,32 @@ namespace Biblioteca
             return boton;
         }
 
+        private Button CrearBotonAccion(Button referencia, string nombre, string texto, EventHandler evento)
+        {
+            Button boton = new Button
+            {
+                Name = nombre,
+                Text = texto,
+                Size = referencia.Size,
+                Font = referencia.Font,
+                Anchor = referencia.Anchor,
+                TabStop = true
+            };
+            Control contenedor = referencia.Parent;
+            int x = referencia.Right + 8;
+            int y = referencia.Top;
+            if (x + boton.Width > contenedor.ClientSize.Width)
+            {
+                x = referencia.Left;
+                y = referencia.Bottom + 6;
+            }
+            boton.Location = new Point(x, y);
+            boton.Click += evento;
+            contenedor.Controls.Add(boton);
+            boton.BringToFront();
+            return boton;
+        }
+
         private void ConfigurarEstadosEspeciales()
         {
             cbxEstadoEdi.Items.Clear();
@@ -190,6 +312,16 @@ namespace Biblioteca
                 "Suspendido"
             });
             cbxEstadoAdm.SelectedIndex = 0;
+
+            cbxEstadoPer.Items.Clear();
+            cbxEstadoPer.Items.AddRange(new object[] { "Activo", "Egresado", "Bloqueado" });
+            cbxEstadoPer.SelectedIndex = 0;
+
+            txtInfoPersona.Enabled = true;
+            txtInfoPersona.ReadOnly = true;
+            txtInfoPersona.Multiline = true;
+            txtInfoPersona.ScrollBars = ScrollBars.Vertical;
+            txtInfoPersona.WordWrap = false;
         }
 
         private string ObtenerEstadoEditorial(int id, bool esActivo)
@@ -216,6 +348,124 @@ namespace Biblioteca
         private bool EstadoEsActivoAdministrador(string estado)
         {
             return estado.Equals("Activo", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string NormalizarEstadoPersona(string estado)
+        {
+            if (estado.Equals("Egresado", StringComparison.OrdinalIgnoreCase)) return "Egresado";
+            if (estado.Equals("Bloqueado", StringComparison.OrdinalIgnoreCase)) return "Bloqueado";
+            return "Activo";
+        }
+
+        private string ObtenerEstadoPersona(int id, bool esActivo)
+        {
+            if (_estadoPersonaUI.TryGetValue(id, out string estado)) return estado;
+            return esActivo ? "Activo" : "Bloqueado";
+        }
+
+        private string ObtenerMotivoBloqueo(int id)
+        {
+            if (_motivoBloqueoPersonaUI.TryGetValue(id, out string motivo)) return motivo;
+            return "El acceso fue bloqueado por la administración de la biblioteca.";
+        }
+
+        private bool TieneMultaVencidaNoPagada(Usuarios usuario, out Multa multaVencida)
+        {
+            multaVencida = null;
+            if (usuario == null) return false;
+            multaVencida = _multasUI
+                .Where(m => m.Usuario != null && m.Usuario.Id == usuario.Id && !m.Pagada && m.EsActivo)
+                .OrderBy(m => m.FechaEmision)
+                .FirstOrDefault(m => DateTime.Now.Date >= m.FechaEmision.Date.AddDays(DiasLimitePagoMulta));
+            return multaVencida != null;
+        }
+
+        private decimal CalcularMultaAcumulada(int idUsuario)
+        {
+            return _multasUI
+                .Where(m => m.Usuario != null &&
+                            m.Usuario.Id == idUsuario &&
+                            !m.Pagada &&
+                            m.EsActivo)
+                .Sum(m => m.MontoBase);
+        }
+
+        private void ActualizarMultaAcumuladaUsuarios()
+        {
+            foreach (Usuarios usuario in Usuarios.ObtenerTodos())
+                usuario.MultaAcumulada = CalcularMultaAcumulada(usuario.Id);
+        }
+
+        private void ActualizarBloqueosPorMultas()
+        {
+            ActualizarMultaAcumuladaUsuarios();
+            foreach (Usuarios usuario in Usuarios.ObtenerTodos())
+            {
+                if (TieneMultaVencidaNoPagada(usuario, out Multa multaVencida))
+                {
+                    usuario.EsActivo = false;
+                    _usuariosBloqueadosPorMultaUI.Add(usuario.Id);
+                    _estadoPersonaUI[usuario.Id] = "Bloqueado";
+                    _motivoBloqueoPersonaUI[usuario.Id] = $"Multa pendiente de ${multaVencida.MontoBase:F2} por {multaVencida.Motivo}, emitida el {multaVencida.FechaEmision:dd/MM/yyyy}. El plazo de pago de {DiasLimitePagoMulta} días ya venció.";
+                    Persona persona = Persona.ObtenerTodos().Find(p => p.Id == usuario.Id);
+                    if (persona != null) persona.EsActivo = false;
+                }
+                else if (_usuariosBloqueadosPorMultaUI.Contains(usuario.Id))
+                {
+                    usuario.EsActivo = true;
+                    _usuariosBloqueadosPorMultaUI.Remove(usuario.Id);
+                    if (_estadoPersonaUI.TryGetValue(usuario.Id, out string estado) && estado.Equals("Bloqueado", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _estadoPersonaUI[usuario.Id] = "Activo";
+                        _motivoBloqueoPersonaUI.Remove(usuario.Id);
+                    }
+                    Persona persona = Persona.ObtenerTodos().Find(p => p.Id == usuario.Id);
+                    if (persona != null && _estadoPersonaUI.TryGetValue(usuario.Id, out string estadoPersona) && estadoPersona.Equals("Activo", StringComparison.OrdinalIgnoreCase))
+                        persona.EsActivo = true;
+                }
+            }
+        }
+
+        private bool VerificarAccesoUsuario(Usuarios usuario, string accion)
+        {
+            ActualizarBloqueosPorMultas();
+            if (usuario == null) { MostrarError("No se encontró el usuario."); return false; }
+            if (_usuariosBloqueadosPorMultaUI.Contains(usuario.Id))
+            {
+                MessageBox.Show($"Acceso bloqueado para {usuario.NombreCompleto}.\n\nMotivo: {ObtenerMotivoBloqueo(usuario.Id)}\n\nNo puede {accion} hasta que liquide la multa pendiente.", "Usuario bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (!usuario.EsActivo)
+            {
+                MessageBox.Show($"El usuario {usuario.NombreCompleto} se encuentra inactivo y no puede {accion}.", "Acceso no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void btnBuscarUsuarioUI_Click(object? sender, EventArgs e)
+        {
+            if (!int.TryParse(txtIDUsuario.Text.Trim(), out int id)) { MostrarError("El ID del usuario debe ser un número válido."); return; }
+            ActualizarBloqueosPorMultas();
+            Usuarios encontrado = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+            if (encontrado == null) { MessageBox.Show("No se encontró el usuario.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            txtCodUsuario.Text = encontrado.Id.ToString(); txtIDUsuario.Text = encontrado.Id.ToString();
+            txtNombreUsuario.Text = encontrado.NombreCompleto; txtEdadUsuario.Text = encontrado.Edad.ToString(); txtCorreoUsuario.Text = encontrado.Correo;
+            txtLibrosPrestaodosUsuario.Text = encontrado.LibrosPrestados.ToString();
+            chbRol.Checked = encontrado.EsProfesor; chbEstadoUsuario.Checked = encontrado.EsActivo; txtImagenUsuario.Text = encontrado.RutaImagen;
+            CargarImagen(encontrado.RutaImagen, lblFotoUsuario);
+            MessageBox.Show("Usuario encontrado.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnBuscarReservaUI_Click(object? sender, EventArgs e)
+        {
+            if (!int.TryParse(textBox6.Text.Trim(), out int id)) { MostrarError("El ID de la reserva debe ser un número válido."); return; }
+            Reserva encontrado = Reserva.ObtenerTodos().Find(r => r.Id == id);
+            if (encontrado == null) { MessageBox.Show("No se encontró la reserva.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            textBox6.Text = encontrado.Id.ToString(); textBox5.Text = encontrado.Usuario.Id.ToString(); textBox12.Text = encontrado.LibroReservado.ISBN;
+            dtpFechaReserva.Value = encontrado.FechaReserva; dtpFechaEntregaReserva.Value = encontrado.FechaLimite; txtImagenREserva.Text = encontrado.RutaImagen; chbEstado.Checked = encontrado.Estado;
+            CargarImagen(encontrado.RutaImagen, lblFotoREserva);
+            MessageBox.Show("Reserva encontrada.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnBuscarAutorUI_Click(object? sender, EventArgs e)
@@ -313,7 +563,7 @@ namespace Biblioteca
             informacion += $"Nombre: {referencia.NombreCompleto}" + Environment.NewLine;
             informacion += $"Edad: {referencia.Edad}" + Environment.NewLine;
             informacion += $"Correo: {referencia.Correo}" + Environment.NewLine;
-            informacion += $"Estado: {(referencia.EsActivo ? "Activo" : "Inactivo")}" + Environment.NewLine;
+            informacion += $"Estado: {ObtenerEstadoPersona(referencia.Id, referencia.EsActivo)}" + Environment.NewLine;
 
             if (referencia is Usuarios usuario)
             {
@@ -330,6 +580,16 @@ namespace Biblioteca
             else
             {
                 informacion += "Tipo: Persona" + Environment.NewLine;
+
+                Usuarios usuarioRelacionado = Usuarios.ObtenerTodos()
+                    .Find(u => u.Id == referencia.Id);
+
+                if (usuarioRelacionado != null)
+                {
+                    ActualizarMultaAcumuladaUsuarios();
+                    informacion += $"Multa acumulada: ${usuarioRelacionado.MultaAcumulada:F2}" + Environment.NewLine;
+                    informacion += $"Libros relacionados: {ObtenerLibrosRelacionadosConUsuario(usuarioRelacionado)}" + Environment.NewLine;
+                }
             }
 
             return informacion;
@@ -338,6 +598,7 @@ namespace Biblioteca
         private void InicializarDatosInterfaz()
         {
             ActualizarContadorLibros();
+            ActualizarBloqueosPorMultas();
             RefrescarListaUsuarios();
             MostrarTodosLosLibros();
             MostrarAutores();
@@ -578,11 +839,14 @@ namespace Biblioteca
         {
             try
             {
+                ActualizarMultaAcumuladaUsuarios();
+
                 if (!TryParseInt(txtIDUsuario, "ID del usuario", out int id) ||
                     !TryParseInt(txtEdadUsuario, "Edad", out int edad) ||
-                    !TryParseInt(txtLibrosPrestaodosUsuario, "Libros prestados", out int librosPrestados) ||
-                    !TryParseDecimal(txtMultaAcumulada, "Multa acumulada", out decimal multa))
+                    !TryParseInt(txtLibrosPrestaodosUsuario, "Libros prestados", out int librosPrestados))
                     return;
+
+                decimal multa = CalcularMultaAcumulada(id);
 
                 if (Usuarios.ObtenerTodos().Any(u => u.Id == id))
                 {
@@ -603,9 +867,12 @@ namespace Biblioteca
                 );
 
                 nuevo.InsertarRegistro(nuevo);
+                SincronizarPersonaDesdeUsuario(nuevo);
+                ActualizarBloqueosPorMultas();
                 RefrescarListaUsuarios();
                 CargarUsuariosEnCombos();
                 CargarImagen(nuevo.RutaImagen, lblFotoUsuario);
+                ActualizarVistaPersonaSiCorresponde(nuevo.Id);
 
                 MessageBox.Show("Usuario agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -619,11 +886,14 @@ namespace Biblioteca
         {
             try
             {
+                ActualizarMultaAcumuladaUsuarios();
+
                 if (!TryParseInt(txtIDUsuario, "ID del usuario", out int id) ||
                     !TryParseInt(txtEdadUsuario, "Edad", out int edad) ||
-                    !TryParseInt(txtLibrosPrestaodosUsuario, "Libros prestados", out int librosPrestados) ||
-                    !TryParseDecimal(txtMultaAcumulada, "Multa acumulada", out decimal multa))
+                    !TryParseInt(txtLibrosPrestaodosUsuario, "Libros prestados", out int librosPrestados))
                     return;
+
+                decimal multa = CalcularMultaAcumulada(id);
 
                 Usuarios existente = Usuarios.ObtenerTodos().Find(u => u.Id == id);
                 if (existente == null)
@@ -645,9 +915,12 @@ namespace Biblioteca
                 );
 
                 existente.ActualizarRegistro(actualizado);
+                SincronizarPersonaDesdeUsuario(actualizado);
+                ActualizarBloqueosPorMultas();
                 RefrescarListaUsuarios();
                 CargarUsuariosEnCombos();
                 CargarImagen(actualizado.RutaImagen, lblFotoUsuario);
+                ActualizarVistaPersonaSiCorresponde(actualizado.Id);
 
                 MessageBox.Show("Usuario actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -667,14 +940,25 @@ namespace Biblioteca
                     return;
                 }
 
-                Usuarios auxiliar = new Usuarios();
-                auxiliar.EliminarRegistro(id.ToString());
+                Usuarios usuario = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+                if (usuario == null)
+                {
+                    MostrarError("No se encontró el usuario a eliminar.");
+                    return;
+                }
+
+                usuario.EliminarRegistro(id.ToString());
+                EliminarPersonaVinculada(id);
+
+                if (_personaSeleccionadaIdUI == id)
+                    _personaSeleccionadaIdUI = null;
 
                 RefrescarListaUsuarios();
                 CargarUsuariosEnCombos();
                 LimpiarCamposUsuario();
+                MostrarPersonas();
 
-                MessageBox.Show("Usuario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Usuario y su registro vinculado en Persona fueron eliminados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -694,7 +978,6 @@ namespace Biblioteca
             txtNombreUsuario.Clear();
             txtLibrosPrestaodosUsuario.Clear();
             txtEdadUsuario.Clear();
-            txtMultaAcumulada.Clear();
             txtCorreoUsuario.Clear();
             txtNacionalidadUsuario.Clear();
             txtImagenUsuario.Clear();
@@ -714,8 +997,11 @@ namespace Biblioteca
                 EscribirDato(txtInfoUsuario, "Edad", u.Edad);
                 EscribirDato(txtInfoUsuario, "Correo", u.Correo);
                 EscribirDato(txtInfoUsuario, "Libros prestados", u.LibrosPrestados);
-                EscribirDato(txtInfoUsuario, "Multa acumulada", $"${u.MultaAcumulada:F2}");
-                EscribirDato(txtInfoUsuario, "Estado", u.EsActivo ? "Activo" : "Inactivo");
+                EscribirDato(txtInfoUsuario, "Multa acumulada", $"${CalcularMultaAcumulada(u.Id):F2}");
+                string estadoUsuario = _usuariosBloqueadosPorMultaUI.Contains(u.Id) ? "Bloqueado" : (u.EsActivo ? "Activo" : "Inactivo");
+                EscribirDato(txtInfoUsuario, "Estado", estadoUsuario);
+                if (_usuariosBloqueadosPorMultaUI.Contains(u.Id))
+                    EscribirDato(txtInfoUsuario, "Motivo del bloqueo", ObtenerMotivoBloqueo(u.Id));
                 EscribirDato(txtInfoUsuario, "Libros relacionados", ObtenerLibrosRelacionadosConUsuario(u));
                 EscribirDato(txtInfoUsuario, "Imagen", u.RutaImagen);
                 txtInfoUsuario.AppendText(Environment.NewLine);
@@ -876,6 +1162,47 @@ namespace Biblioteca
                 EscribirDato(txbInfo, "Imagen", l.RutaImagen);
                 txbInfo.AppendText(Environment.NewLine);
             }
+        }
+
+        private void btnLimpiarLibroUI_Click(object? sender, EventArgs e)
+        {
+            txtIsbn.Clear(); txtTitulo.Clear(); txtCosto.Clear(); txtImagen.Clear();
+            if (cbxNovedad.Items.Count > 0) cbxNovedad.SelectedIndex = 0;
+            if (cbxEstado.Items.Count > 0) cbxEstado.SelectedIndex = 0;
+            CargarImagen(string.Empty, lblFotoLIbro);
+        }
+
+        private void btnLimpiarPrestamoUI_Click(object? sender, EventArgs e)
+        {
+            txtID.Clear(); txtUsuario.Clear(); txtLibro.Clear(); txtImagenLi.Clear();
+            dtpFechaEntrega.Value = DateTime.Now.AddDays(7);
+            if (cbxStatus.Items.Count > 0) cbxStatus.SelectedIndex = 0;
+            if (cbxEstadoLi.Items.Count > 0) cbxEstadoLi.SelectedIndex = 0;
+            CargarImagen(string.Empty, lblFotoPrestamo);
+        }
+
+        private void btnLimpiarPersonaUI_Click(object? sender, EventArgs e)
+        {
+            textBox4.Clear(); txtNombreCPer.Clear(); txtEdad.Clear(); txtCorreoPer.Clear(); txtImagenPer.Clear();
+            if (cbxEstadoPer.Items.Count > 0) cbxEstadoPer.SelectedIndex = 0;
+            CargarImagen(string.Empty, label12);
+        }
+
+        private void btnLimpiarEditorialUI_Click(object? sender, EventArgs e)
+        {
+            txtIDEditorial.Clear(); txtNombreEdi.Clear(); txtPais.Clear(); txtCorreoEdi.Clear(); txtImagenEdi.Clear();
+            dtpAnioFundacion.Value = DateTime.Now;
+            if (cbxEstadoEdi.Items.Count > 0) cbxEstadoEdi.SelectedIndex = 0;
+            CargarImagen(string.Empty, lblFotoEditorial);
+        }
+
+        private void btnLimpiarAdministradorUI_Click(object? sender, EventArgs e)
+        {
+            txtCodigoAdm.Clear(); txtNombreAdmin.Clear(); txtEdadAdmin.Clear(); txtCorreoAdmin.Clear(); txtDepartamento.Clear(); txtImagenAdm.Clear();
+            dtpFechaIngreso.Value = DateTime.Now;
+            if (_cbxNivelAccesoUI != null && _cbxNivelAccesoUI.Items.Count > 0) _cbxNivelAccesoUI.SelectedIndex = 2;
+            if (cbxEstadoAdm.Items.Count > 0) cbxEstadoAdm.SelectedIndex = 0;
+            CargarImagen(string.Empty, lblFotoAdministrador);
         }
 
         // =====================================================
@@ -1169,6 +1496,9 @@ namespace Biblioteca
                     return;
                 }
 
+                if (!VerificarAccesoUsuario(usuario, "solicitar préstamos"))
+                    return;
+
                 if (_prestamosUI.Any(p => p.Id == id))
                 {
                     MostrarError("Ya existe un préstamo con ese ID.");
@@ -1234,6 +1564,9 @@ namespace Biblioteca
                     MostrarError("Verifica el ID del usuario y el ISBN del libro.");
                     return;
                 }
+
+                if (!VerificarAccesoUsuario(usuario, "mantener préstamos"))
+                    return;
 
                 Prestamos actualizado = new Prestamos(id, usuario, libro, txtImagenLi.Text, EsDisponible(cbxEstadoLi.Text));
                 actualizado.FechaEntrega = dtpFechaEntrega.Value;
@@ -1308,7 +1641,10 @@ namespace Biblioteca
 
                 EscribirSeparador(txbInfoPres, $"PRÉSTAMO #{prestamo.Id}");
                 EscribirDato(txbInfoPres, "Usuario", $"#{prestamo.Usuario.Id} - {prestamo.Usuario.NombreCompleto}");
-                EscribirDato(txbInfoPres, "Estado del usuario", prestamo.Usuario.EsActivo ? "Activo" : "Inactivo");
+                string estadoPrestamoUsuario = _usuariosBloqueadosPorMultaUI.Contains(prestamo.Usuario.Id) ? "Bloqueado" : (prestamo.Usuario.EsActivo ? "Activo" : "Inactivo");
+                EscribirDato(txbInfoPres, "Estado del usuario", estadoPrestamoUsuario);
+                if (_usuariosBloqueadosPorMultaUI.Contains(prestamo.Usuario.Id))
+                    EscribirDato(txbInfoPres, "Motivo del bloqueo", ObtenerMotivoBloqueo(prestamo.Usuario.Id));
                 EscribirDato(txbInfoPres, "Libro", NombreLibro(libro));
                 EscribirDato(txbInfoPres, "Fecha de entrega", prestamo.FechaEntrega.ToString("dd/MM/yyyy"));
                 EscribirDato(txbInfoPres, "Préstamo activo", prestamo.Status ? "Sí" : "No");
@@ -1340,6 +1676,9 @@ namespace Biblioteca
                     MostrarError("No se encontró el libro reservado por su ISBN.");
                     return;
                 }
+
+                if (!VerificarAccesoUsuario(usuario, "reservar libros"))
+                    return;
 
                 if (Reserva.ObtenerTodos().Any(r => r.Id == id))
                 {
@@ -1387,6 +1726,9 @@ namespace Biblioteca
                     MostrarError("Verifica el ID del usuario y el ISBN del libro.");
                     return;
                 }
+
+                if (!VerificarAccesoUsuario(usuario, "mantener reservas"))
+                    return;
 
                 Reserva actualizada = new Reserva(
                     id,
@@ -1460,7 +1802,10 @@ namespace Biblioteca
             {
                 EscribirSeparador(txtInfoReserva, $"RESERVA #{reserva.Id}");
                 EscribirDato(txtInfoReserva, "Usuario", $"#{reserva.Usuario.Id} - {reserva.Usuario.NombreCompleto}");
-                EscribirDato(txtInfoReserva, "Estado del usuario", reserva.Usuario.EsActivo ? "Activo" : "Inactivo");
+                string estadoReservaUsuario = _usuariosBloqueadosPorMultaUI.Contains(reserva.Usuario.Id) ? "Bloqueado" : (reserva.Usuario.EsActivo ? "Activo" : "Inactivo");
+                EscribirDato(txtInfoReserva, "Estado del usuario", estadoReservaUsuario);
+                if (_usuariosBloqueadosPorMultaUI.Contains(reserva.Usuario.Id))
+                    EscribirDato(txtInfoReserva, "Motivo del bloqueo", ObtenerMotivoBloqueo(reserva.Usuario.Id));
                 EscribirDato(txtInfoReserva, "Libro", NombreLibro(reserva.LibroReservado));
                 EscribirDato(txtInfoReserva, "Fecha de reserva", reserva.FechaReserva.ToString("dd/MM/yyyy"));
                 EscribirDato(txtInfoReserva, "Fecha límite", reserva.FechaLimite.ToString("dd/MM/yyyy"));
@@ -1506,6 +1851,10 @@ namespace Biblioteca
 
                 nueva.InsertarRegistro(nueva);
                 _multasUI.Add(nueva);
+                ActualizarBloqueosPorMultas();
+                RefrescarListaUsuarios();
+                MostrarPersonas();
+                CargarUsuariosEnCombos();
                 CargarImagen(nueva.RutaImagen, lblFotoMulta);
                 MostrarMultas();
                 MessageBox.Show("Multa agregada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1551,6 +1900,10 @@ namespace Biblioteca
                 int indiceMulta = _multasUI.IndexOf(existente);
                 if (indiceMulta >= 0)
                     _multasUI[indiceMulta] = actualizada;
+                ActualizarBloqueosPorMultas();
+                RefrescarListaUsuarios();
+                MostrarPersonas();
+                CargarUsuariosEnCombos();
                 CargarImagen(actualizada.RutaImagen, lblFotoMulta);
                 MostrarMultas();
                 MessageBox.Show("Multa actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1575,6 +1928,10 @@ namespace Biblioteca
                 Multa multaLocal = _multasUI.Find(m => m.Id == id);
                 if (multaLocal != null)
                     _multasUI.Remove(multaLocal);
+                ActualizarBloqueosPorMultas();
+                RefrescarListaUsuarios();
+                MostrarPersonas();
+                CargarUsuariosEnCombos();
                 MostrarMultas();
                 btn_Multa_Limpiar_Click(sender, e);
                 MessageBox.Show("Multa eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1609,9 +1966,22 @@ namespace Biblioteca
 
         private void MostrarMultas()
         {
+            ActualizarBloqueosPorMultas();
             textBox11.Clear();
             foreach (Multa multa in _multasUI)
-                textBox11.AppendText(multa + Environment.NewLine);
+            {
+                EscribirSeparador(textBox11, $"MULTA #{multa.Id}");
+                EscribirDato(textBox11, "Usuario", multa.Usuario != null ? $"#{multa.Usuario.Id} - {multa.Usuario.NombreCompleto}" : "Sin usuario");
+                EscribirDato(textBox11, "Motivo", multa.Motivo);
+                EscribirDato(textBox11, "Monto", $"${multa.MontoBase:F2}");
+                EscribirDato(textBox11, "Fecha de emisión", multa.FechaEmision.ToString("dd/MM/yyyy"));
+                EscribirDato(textBox11, "Estado de pago", multa.Pagada ? "Pagada" : "Pendiente");
+                EscribirDato(textBox11, "Estado", multa.EsActivo ? "Activa" : "Inactiva");
+                EscribirDato(textBox11, "Libros relacionados con el usuario", multa.Usuario != null ? ObtenerLibrosRelacionadosConUsuario(multa.Usuario) : "Sin usuario relacionado");
+                if (multa.Usuario != null && _usuariosBloqueadosPorMultaUI.Contains(multa.Usuario.Id))
+                    EscribirDato(textBox11, "Acceso", "BLOQUEADO por multa vencida");
+                textBox11.AppendText(Environment.NewLine);
+            }
         }
 
         // =====================================================
@@ -1958,31 +2328,8 @@ namespace Biblioteca
 
         private void btnCrearPer_Click(object? sender, EventArgs e)
         {
-            try
-            {
-                if (!TryParseInt(textBox4, "Código de la persona", out int id) ||
-                    !TryParseInt(txtEdad, "Edad", out int edad))
-                    return;
-
-                if (Persona.ObtenerTodos().Any(p => p.Id == id))
-                {
-                    MostrarError("Ya existe una persona con ese código.");
-                    return;
-                }
-
-                Persona nueva = new Persona(id, txtNombreCPer.Text, edad, txtCorreoPer.Text)
-                {
-                    EsActivo = EsDisponible(cbxEstadoPer.Text)
-                };
-
-                nueva.InsertarRegistro(nueva);
-                MostrarPersonas();
-                MessageBox.Show("Persona creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex.Message, "Error al crear persona");
-            }
+            // El botón Crear está oculto en Persona. Los usuarios se crean desde Usuarios.
+            MessageBox.Show("Los registros de Persona se obtienen de Usuarios o Autores. Para crear un usuario utiliza la pestaña Usuarios.", "Persona", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnBuscarPer_Click(object? sender, EventArgs e)
@@ -1993,20 +2340,51 @@ namespace Biblioteca
                 return;
             }
 
-            Persona encontrado = Persona.ObtenerTodos().Find(p => p.Id == id);
+            ActualizarBloqueosPorMultas();
+
+            Usuarios? usuario = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+            Persona? encontrado = usuario as Persona;
+
+            if (encontrado == null)
+                encontrado = Persona.ObtenerTodos().Find(p => p.Id == id);
+
+            if (encontrado == null)
+                encontrado = Autores.ObtenerTodos().Find(a => a.Id == id);
+
             if (encontrado == null)
             {
-                MessageBox.Show("No se encontró la persona.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _personaSeleccionadaIdUI = null;
+                txtInfoPersona.Clear();
+                MessageBox.Show(
+                    $"No se encontró ninguna persona, usuario o autor con el código {id}.",
+                    "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            _personaSeleccionadaIdUI = id;
+
+            // Siempre se vuelve a cargar desde la fuente actual. Así una búsqueda
+            // nueva reemplaza completamente la anterior y no se acumulan resultados.
             CargarPersonaEnFormulario(encontrado);
-            MessageBox.Show("Persona encontrada.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MostrarPersonaSeleccionada(encontrado);
+
+            MessageBox.Show(
+                usuario != null
+                    ? "Usuario encontrado mediante su código y cargado en Persona."
+                    : encontrado is Autores
+                        ? "Autor encontrado mediante su código y cargado en Persona."
+                        : "Persona encontrada.",
+                "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnMostrarPer_Click(object? sender, EventArgs e)
         {
-            MostrarPersonas();
+            // Persona no muestra todos los registros. Solo muestra el usuario/persona
+            // que actualmente está seleccionado mediante Buscar.
+            if (_personaSeleccionadaIdUI.HasValue)
+                MostrarPersonaSeleccionada(ObtenerPersonaPorId(_personaSeleccionadaIdUI.Value));
+            else
+                txtInfoPersona.Clear();
         }
 
         private void btnActualizarPer_Click(object? sender, EventArgs e)
@@ -2017,6 +2395,37 @@ namespace Biblioteca
                     !TryParseInt(txtEdad, "Edad", out int edad))
                     return;
 
+                string estadoPersona = NormalizarEstadoPersona(cbxEstadoPer.Text);
+                bool activo = estadoPersona.Equals("Activo", StringComparison.OrdinalIgnoreCase);
+
+                Usuarios? usuario = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+                if (usuario != null)
+                {
+                    // Si el registro corresponde a un Usuario, Persona actualiza al
+                    // mismo objeto lógico: los cambios se reflejan en Usuarios y Persona.
+                    Usuarios actualizado = new Usuarios(
+                        id,
+                        txtNombreCPer.Text,
+                        edad,
+                        txtCorreoPer.Text,
+                        usuario.LibrosPrestados,
+                        CalcularMultaAcumulada(id),
+                        usuario.EsProfesor,
+                        usuario.RutaImagen,
+                        activo);
+
+                    usuario.ActualizarRegistro(actualizado);
+                    SincronizarPersonaDesdeUsuario(actualizado);
+                    ActualizarBloqueosPorMultas();
+                    _personaSeleccionadaIdUI = id;
+                    CargarPersonaEnFormulario(actualizado);
+                    MostrarPersonaSeleccionada(actualizado);
+                    RefrescarListaUsuarios();
+                    CargarUsuariosEnCombos();
+                    MessageBox.Show("Usuario y Persona actualizados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 Persona existente = Persona.ObtenerTodos().Find(p => p.Id == id);
                 if (existente == null)
                 {
@@ -2026,11 +2435,19 @@ namespace Biblioteca
 
                 Persona actualizada = new Persona(id, txtNombreCPer.Text, edad, txtCorreoPer.Text)
                 {
-                    EsActivo = EsDisponible(cbxEstadoPer.Text)
+                    EsActivo = activo
                 };
 
+                _estadoPersonaUI[id] = estadoPersona;
+                if (estadoPersona.Equals("Bloqueado", StringComparison.OrdinalIgnoreCase))
+                    _motivoBloqueoPersonaUI[id] = "Bloqueo seleccionado manualmente desde el módulo Persona.";
+                else
+                    _motivoBloqueoPersonaUI.Remove(id);
+
                 existente.ActualizarRegistro(actualizada);
-                MostrarPersonas();
+                _personaSeleccionadaIdUI = id;
+                CargarPersonaEnFormulario(actualizada);
+                MostrarPersonaSeleccionada(actualizada);
                 MessageBox.Show("Persona actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -2049,14 +2466,177 @@ namespace Biblioteca
                     return;
                 }
 
-                new Persona().EliminarRegistro(id.ToString());
+                Usuarios? usuario = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+                Persona? persona = Persona.ObtenerTodos().Find(p => p.Id == id);
+
+                if (usuario == null && persona == null)
+                {
+                    MostrarError("No se encontró un usuario o persona con ese código.");
+                    return;
+                }
+
+                if (usuario != null)
+                    usuario.EliminarRegistro(id.ToString());
+
+                EliminarPersonaVinculada(id);
+
+                _estadoPersonaUI.Remove(id);
+                _motivoBloqueoPersonaUI.Remove(id);
+                _usuariosBloqueadosPorMultaUI.Remove(id);
+
+                if (_personaSeleccionadaIdUI == id)
+                    _personaSeleccionadaIdUI = null;
+
+                LimpiarCamposPersona();
+                RefrescarListaUsuarios();
+                CargarUsuariosEnCombos();
                 MostrarPersonas();
-                MessageBox.Show("Persona eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show("El registro fue eliminado de Persona y de Usuarios.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MostrarError(ex.Message, "Error al eliminar persona");
             }
+        }
+
+        private void CargarPersonaEnFormulario(Persona persona)
+        {
+            textBox4.Text = persona.Id.ToString();
+            txtNombreCPer.Text = persona.NombreCompleto;
+            txtEdad.Text = persona.Edad.ToString();
+            txtCorreoPer.Text = persona.Correo;
+
+            if (persona is Usuarios usuario)
+            {
+                ActualizarBloqueosPorMultas();
+                cbxEstadoPer.Text = ObtenerEstadoPersona(usuario.Id, usuario.EsActivo);
+                txtImagenPer.Text = usuario.RutaImagen;
+            }
+            else
+            {
+                cbxEstadoPer.Text = ObtenerEstadoPersona(persona.Id, persona.EsActivo);
+                txtImagenPer.Text = persona is Autores autor ? autor.RutaImagen : string.Empty;
+            }
+
+            CargarImagen(txtImagenPer.Text, label12);
+        }
+
+        private Persona? ObtenerPersonaPorId(int id)
+        {
+            Usuarios? usuario = Usuarios.ObtenerTodos().Find(u => u.Id == id);
+            if (usuario != null)
+                return usuario;
+
+            Persona? persona = Persona.ObtenerTodos().Find(p => p.Id == id);
+            if (persona != null)
+                return persona;
+
+            return Autores.ObtenerTodos().Find(a => a.Id == id);
+        }
+
+        private void MostrarPersonaSeleccionada(Persona? persona)
+        {
+            txtInfoPersona.Clear();
+
+            if (persona == null)
+                return;
+
+            ActualizarBloqueosPorMultas();
+
+            Persona? personaActual = ObtenerPersonaPorId(persona.Id);
+            if (personaActual == null)
+                return;
+
+            EscribirSeparador(txtInfoPersona, $"PERSONA #{personaActual.Id}");
+            txtInfoPersona.AppendText(ObtenerInformacionPersonaPolimorfica(personaActual));
+
+            string estado = ObtenerEstadoPersona(personaActual.Id, personaActual.EsActivo);
+            EscribirDato(txtInfoPersona, "Estado administrativo", estado);
+
+            Usuarios? usuarioRelacionado = Usuarios.ObtenerTodos().Find(u => u.Id == personaActual.Id);
+            if (usuarioRelacionado != null)
+            {
+                EscribirDato(txtInfoPersona, "Multa acumulada", $"${CalcularMultaAcumulada(usuarioRelacionado.Id):F2}");
+                EscribirDato(txtInfoPersona, "Libros relacionados", ObtenerLibrosRelacionadosConUsuario(usuarioRelacionado));
+            }
+
+            if (estado.Equals("Bloqueado", StringComparison.OrdinalIgnoreCase))
+                EscribirDato(txtInfoPersona, "Motivo del bloqueo", ObtenerMotivoBloqueo(personaActual.Id));
+        }
+
+        private void MostrarPersonas()
+        {
+            // La vista Persona es una consulta individual. Nunca conserva ni acumula
+            // resultados de búsquedas anteriores.
+            if (!_personaSeleccionadaIdUI.HasValue)
+            {
+                txtInfoPersona.Clear();
+                return;
+            }
+
+            MostrarPersonaSeleccionada(ObtenerPersonaPorId(_personaSeleccionadaIdUI.Value));
+        }
+
+        private void SincronizarPersonaDesdeUsuario(Usuarios usuario)
+        {
+            if (usuario == null)
+                return;
+
+            // Si existe una instancia independiente de Persona con el mismo código,
+            // se actualizan sus datos comunes para mantener ambas vistas sincronizadas.
+            Persona? persona = Persona.ObtenerTodos().Find(p => p.Id == usuario.Id);
+            if (persona != null)
+            {
+                persona.NombreCompleto = usuario.NombreCompleto;
+                persona.Edad = usuario.Edad;
+                persona.Correo = usuario.Correo;
+                persona.EsActivo = usuario.EsActivo;
+            }
+
+            _estadoPersonaUI[usuario.Id] = ObtenerEstadoPersonaDesdeUsuario(usuario);
+        }
+
+        private string ObtenerEstadoPersonaDesdeUsuario(Usuarios usuario)
+        {
+            if (_usuariosBloqueadosPorMultaUI.Contains(usuario.Id))
+                return "Bloqueado";
+
+            if (_estadoPersonaUI.TryGetValue(usuario.Id, out string estado) &&
+                estado.Equals("Egresado", StringComparison.OrdinalIgnoreCase))
+                return "Egresado";
+
+            return usuario.EsActivo ? "Activo" : "Bloqueado";
+        }
+
+        private void ActualizarVistaPersonaSiCorresponde(int idUsuario)
+        {
+            if (_personaSeleccionadaIdUI == idUsuario)
+            {
+                Persona? personaActual = ObtenerPersonaPorId(idUsuario);
+                if (personaActual != null)
+                    CargarPersonaEnFormulario(personaActual);
+                MostrarPersonaSeleccionada(personaActual);
+            }
+        }
+
+        private void EliminarPersonaVinculada(int id)
+        {
+            Persona? persona = Persona.ObtenerTodos().Find(p => p.Id == id);
+            if (persona != null)
+                persona.EliminarRegistro(id.ToString());
+        }
+
+        private void LimpiarCamposPersona()
+        {
+            textBox4.Clear();
+            txtNombreCPer.Clear();
+            txtEdad.Clear();
+            txtCorreoPer.Clear();
+            txtImagenPer.Clear();
+            cbxEstadoPer.SelectedIndex = -1;
+            cbxEstadoPer.Text = string.Empty;
+            CargarImagen(string.Empty, label12);
         }
 
         private void button9_Click(object? sender, EventArgs e)
@@ -2067,47 +2647,6 @@ namespace Biblioteca
             {
                 txtImagenPer.Text = ruta;
                 CargarImagen(ruta, label12);
-            }
-        }
-
-        private void CargarPersonaEnFormulario(Persona persona)
-        {
-            textBox4.Text = persona.Id.ToString();
-            txtNombreCPer.Text = persona.NombreCompleto;
-            txtEdad.Text = persona.Edad.ToString();
-            txtCorreoPer.Text = persona.Correo;
-            cbxEstadoPer.Text = persona.EsActivo ? "Disponible" : "Prestado";
-            txtImagenPer.Text = string.Empty;
-        }
-
-        private void MostrarPersonas()
-        {
-            txtInfoPersona.Clear();
-
-            // Lista polimórfica: una misma colección de Persona contiene
-            // objetos concretos de Usuarios y Autores.
-            List<Persona> personasPolimorficas = new List<Persona>();
-
-            foreach (Persona persona in Persona.ObtenerTodos())
-                personasPolimorficas.Add(persona);
-
-            foreach (Usuarios usuario in Usuarios.ObtenerTodos())
-            {
-                if (!personasPolimorficas.Any(p => p.Id == usuario.Id))
-                    personasPolimorficas.Add(usuario);
-            }
-
-            foreach (Autores autor in Autores.ObtenerTodos())
-            {
-                if (!personasPolimorficas.Any(p => p.Id == autor.Id))
-                    personasPolimorficas.Add(autor);
-            }
-
-            foreach (Persona persona in personasPolimorficas)
-            {
-                EscribirSeparador(txtInfoPersona, $"PERSONA #{persona.Id}");
-                txtInfoPersona.AppendText(ObtenerInformacionPersonaPolimorfica(persona));
-                txtInfoPersona.AppendText(Environment.NewLine);
             }
         }
 

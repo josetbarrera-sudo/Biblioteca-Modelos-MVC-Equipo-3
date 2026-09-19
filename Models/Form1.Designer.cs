@@ -1418,7 +1418,7 @@
             // txtInfoPersona
             // 
             txtInfoPersona.Enabled = false;
-            txtInfoPersona.Location = new Point(30, 54);
+            txtInfoPersona.Location = new Point(18, 55);
             txtInfoPersona.Multiline = true;
             txtInfoPersona.Name = "txtInfoPersona";
             txtInfoPersona.ScrollBars = ScrollBars.Vertical;
