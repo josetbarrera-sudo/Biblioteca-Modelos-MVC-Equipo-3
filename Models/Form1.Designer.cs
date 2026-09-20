@@ -32,19 +32,18 @@
             tabUsuarios = new TabPage();
             panel1 = new Panel();
             chbRol = new CheckBox();
-            txtMultaAcumulada = new TextBox();
             txtIDUsuario = new TextBox();
             txtLibrosPrestaodosUsuario = new TextBox();
-            label64 = new Label();
             label65 = new Label();
             label66 = new Label();
             lblFotoUsuario = new Label();
             txtInfoUsuario = new TextBox();
             btnLimpiarUsuario = new Button();
+            btnBuscarUsuario = new Button();
             btnEliminarUsuario = new Button();
             btnModificarUsuario = new Button();
             btnAgregarUsuario = new Button();
-            button5 = new Button();
+            btn_imagen_Usu = new Button();
             txtImagenUsuario = new TextBox();
             label56 = new Label();
             chbEstadoUsuario = new CheckBox();
@@ -63,6 +62,7 @@
             txbInfo = new TextBox();
             groupBox2 = new GroupBox();
             btnBorrarLi = new Button();
+            btnLimpiarLibro = new Button();
             btnActualizarLi = new Button();
             btnMostrarLi = new Button();
             btnBuscarLi = new Button();
@@ -71,7 +71,7 @@
             lblFotoLIbro = new Label();
             cbxEstado = new ComboBox();
             cbxNovedad = new ComboBox();
-            button8 = new Button();
+            btn_Imagen_Lib = new Button();
             txtCosto = new TextBox();
             txtTitulo = new TextBox();
             txtIsbn = new TextBox();
@@ -86,6 +86,7 @@
             lblFotoAutor = new Label();
             textBox9 = new TextBox();
             btn_Autor_LimpiarPic = new Button();
+            btnBuscarAutor = new Button();
             btn_Autor_EliminarPic = new Button();
             btn_Autor_ModificarPic = new Button();
             btn_Autor_AgregarPic = new Button();
@@ -108,6 +109,7 @@
             txbInfoPres = new TextBox();
             groupBox5 = new GroupBox();
             btnBorrarrPres = new Button();
+            btnLimpiarPrestamo = new Button();
             btnActualizarPres = new Button();
             btnMostrarPres = new Button();
             btnBuscarPres = new Button();
@@ -118,7 +120,7 @@
             label41 = new Label();
             cbxEstadoLi = new ComboBox();
             cbxStatus = new ComboBox();
-            button14 = new Button();
+            btn_Imagen_Prest = new Button();
             txtLibro = new TextBox();
             txtUsuario = new TextBox();
             txtID = new TextBox();
@@ -134,10 +136,10 @@
             txtInfoPersona = new TextBox();
             groupBox14 = new GroupBox();
             btnBorrarPer = new Button();
+            btnLimpiarPersona = new Button();
             btnActualizarPer = new Button();
             btnMostrarPer = new Button();
             btnBuscarPer = new Button();
-            btnCrearPer = new Button();
             groupBox15 = new GroupBox();
             txtEdad = new TextBox();
             label16 = new Label();
@@ -145,7 +147,7 @@
             txtCorreoPer = new TextBox();
             label13 = new Label();
             cbxEstadoPer = new ComboBox();
-            button9 = new Button();
+            btn_Imagen_Pers = new Button();
             txtNombreCPer = new TextBox();
             textBox4 = new TextBox();
             txtImagenPer = new TextBox();
@@ -157,12 +159,13 @@
             lblFotoGenero = new Label();
             textBox10 = new TextBox();
             btn_GenLimpiar = new Button();
+            btnBuscarGenero = new Button();
             btn_GenEliminar = new Button();
             btn_GenModificar = new Button();
             btn_GenAgregar = new Button();
-            button6 = new Button();
+            btn_Imagen_Gene = new Button();
             ckB_Genero_Activo = new CheckBox();
-            textBox7 = new TextBox();
+            txb_RutaIma_Gen = new TextBox();
             txB_GenDescripcion = new TextBox();
             txB_GenNombre = new TextBox();
             txB_IDGenero = new TextBox();
@@ -175,18 +178,19 @@
             dtpFechaReserva = new DateTimePicker();
             label74 = new Label();
             label73 = new Label();
-            textBox12 = new TextBox();
+            txb_librorsrva_CReserva = new TextBox();
             lblFotoREserva = new Label();
             txtInfoReserva = new TextBox();
             btnLimpiarReserva = new Button();
             btnEliminarReserva = new Button();
             btnModificarReserva = new Button();
+            btnBuscarReserva = new Button();
             btnCrearReserva = new Button();
-            button10 = new Button();
+            btn_Imagen_Reser = new Button();
             chbEstado = new CheckBox();
             txtImagenREserva = new TextBox();
-            textBox5 = new TextBox();
-            textBox6 = new TextBox();
+            txB_usuario_CReserva = new TextBox();
+            txb_ID_Reserva = new TextBox();
             label69 = new Label();
             label70 = new Label();
             label71 = new Label();
@@ -195,11 +199,12 @@
             lblFotoMulta = new Label();
             textBox11 = new TextBox();
             btn_Multa_Limpiar = new Button();
+            btnBuscarMulta = new Button();
             btn_Multa_Eliminar = new Button();
             btn_Multa_Modificar = new Button();
             btn_Multa_Agregar = new Button();
-            button7 = new Button();
-            textBox8 = new TextBox();
+            btn_Imagen_Mlta = new Button();
+            txb_RutaIma_Mlta = new TextBox();
             label28 = new Label();
             ckB_MultaEstado = new CheckBox();
             ckB_Multa_Pagada = new CheckBox();
@@ -219,6 +224,7 @@
             txbInfoEdi = new TextBox();
             groupBox8 = new GroupBox();
             btnBorarEdi = new Button();
+            btnLimpiarEditorial = new Button();
             btnActualizarEdi = new Button();
             btnMostrarEdi = new Button();
             btnBuscarEdi = new Button();
@@ -230,7 +236,7 @@
             dtpAnioFundacion = new DateTimePicker();
             label42 = new Label();
             cbxEstadoEdi = new ComboBox();
-            button15 = new Button();
+            btn_Imagen_Edi = new Button();
             txtPais = new TextBox();
             txtIDEditorial = new TextBox();
             txtImagenEdi = new TextBox();
@@ -245,6 +251,7 @@
             txbInfoAdm = new TextBox();
             groupBox11 = new GroupBox();
             btnBorarAdm = new Button();
+            btnLimpiarAdministrador = new Button();
             btnActualizarAdm = new Button();
             btnMostrarAdm = new Button();
             btnBuscarAdm = new Button();
@@ -261,9 +268,9 @@
             lblFotoAdministrador = new Label();
             dtpFechaIngreso = new DateTimePicker();
             cbxEstadoAdm = new ComboBox();
-            button16 = new Button();
+            btn_Imagen_Admin = new Button();
             txtDepartamento = new TextBox();
-            txtNivelAcc = new TextBox();
+            cbxNivelAcceso = new ComboBox();
             txtImagenAdm = new TextBox();
             label50 = new Label();
             label51 = new Label();
@@ -344,19 +351,18 @@
             // 
             panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(chbRol);
-            panel1.Controls.Add(txtMultaAcumulada);
             panel1.Controls.Add(txtIDUsuario);
             panel1.Controls.Add(txtLibrosPrestaodosUsuario);
-            panel1.Controls.Add(label64);
             panel1.Controls.Add(label65);
             panel1.Controls.Add(label66);
             panel1.Controls.Add(lblFotoUsuario);
             panel1.Controls.Add(txtInfoUsuario);
+            panel1.Controls.Add(btnBuscarUsuario);
             panel1.Controls.Add(btnLimpiarUsuario);
             panel1.Controls.Add(btnEliminarUsuario);
             panel1.Controls.Add(btnModificarUsuario);
             panel1.Controls.Add(btnAgregarUsuario);
-            panel1.Controls.Add(button5);
+            panel1.Controls.Add(btn_imagen_Usu);
             panel1.Controls.Add(txtImagenUsuario);
             panel1.Controls.Add(label56);
             panel1.Controls.Add(chbEstadoUsuario);
@@ -381,21 +387,13 @@
             chbRol.Checked = true;
             chbRol.CheckState = CheckState.Checked;
             chbRol.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chbRol.Location = new Point(260, 245);
+            chbRol.Location = new Point(260, 196);
             chbRol.Margin = new Padding(3, 4, 3, 4);
             chbRol.Name = "chbRol";
             chbRol.Size = new Size(83, 24);
             chbRol.TabIndex = 56;
             chbRol.Text = "Profesor";
             chbRol.UseVisualStyleBackColor = true;
-            // 
-            // txtMultaAcumulada
-            // 
-            txtMultaAcumulada.Location = new Point(260, 196);
-            txtMultaAcumulada.Margin = new Padding(3, 4, 3, 4);
-            txtMultaAcumulada.Name = "txtMultaAcumulada";
-            txtMultaAcumulada.Size = new Size(179, 28);
-            txtMultaAcumulada.TabIndex = 55;
             // 
             // txtIDUsuario
             // 
@@ -412,16 +410,6 @@
             txtLibrosPrestaodosUsuario.Name = "txtLibrosPrestaodosUsuario";
             txtLibrosPrestaodosUsuario.Size = new Size(179, 28);
             txtLibrosPrestaodosUsuario.TabIndex = 53;
-            // 
-            // label64
-            // 
-            label64.AutoSize = true;
-            label64.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label64.Location = new Point(260, 170);
-            label64.Name = "label64";
-            label64.Size = new Size(133, 21);
-            label64.TabIndex = 50;
-            label64.Text = "Multa acumulada:";
             // 
             // label65
             // 
@@ -461,6 +449,16 @@
             txtInfoUsuario.Name = "txtInfoUsuario";
             txtInfoUsuario.Size = new Size(528, 648);
             txtInfoUsuario.TabIndex = 46;
+            // 
+            // btnBuscarUsuario
+            // 
+            btnBuscarUsuario.Font = new Font("Segoe UI", 9F);
+            btnBuscarUsuario.Location = new Point(241, 761);
+            btnBuscarUsuario.Name = "btnBuscarUsuario";
+            btnBuscarUsuario.Size = new Size(94, 28);
+            btnBuscarUsuario.TabIndex = 60;
+            btnBuscarUsuario.Text = "Buscar";
+            btnBuscarUsuario.UseVisualStyleBackColor = true;
             // 
             // btnLimpiarUsuario
             // 
@@ -506,15 +504,15 @@
             btnAgregarUsuario.Text = "Agregar";
             btnAgregarUsuario.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btn_imagen_Usu
             // 
-            button5.Location = new Point(198, 454);
-            button5.Margin = new Padding(3, 4, 3, 4);
-            button5.Name = "button5";
-            button5.Size = new Size(34, 31);
-            button5.TabIndex = 41;
-            button5.Text = "...";
-            button5.UseVisualStyleBackColor = true;
+            btn_imagen_Usu.Location = new Point(198, 454);
+            btn_imagen_Usu.Margin = new Padding(3, 4, 3, 4);
+            btn_imagen_Usu.Name = "btn_imagen_Usu";
+            btn_imagen_Usu.Size = new Size(34, 31);
+            btn_imagen_Usu.TabIndex = 41;
+            btn_imagen_Usu.Text = "...";
+            btn_imagen_Usu.UseVisualStyleBackColor = true;
             // 
             // txtImagenUsuario
             // 
@@ -676,6 +674,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(btnLimpiarLibro);
             groupBox2.Controls.Add(btnBorrarLi);
             groupBox2.Controls.Add(btnActualizarLi);
             groupBox2.Controls.Add(btnMostrarLi);
@@ -688,10 +687,20 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Acciones";
             // 
+            // btnLimpiarLibro
+            // 
+            btnLimpiarLibro.Font = new Font("Segoe UI", 9F);
+            btnLimpiarLibro.Location = new Point(867, 56);
+            btnLimpiarLibro.Name = "btnLimpiarLibro";
+            btnLimpiarLibro.Size = new Size(94, 28);
+            btnLimpiarLibro.TabIndex = 60;
+            btnLimpiarLibro.Text = "Limpiar";
+            btnLimpiarLibro.UseVisualStyleBackColor = true;
+            // 
             // btnBorrarLi
             // 
             btnBorrarLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBorrarLi.Location = new Point(761, 56);
+            btnBorrarLi.Location = new Point(711, 56);
             btnBorrarLi.Name = "btnBorrarLi";
             btnBorrarLi.Size = new Size(94, 28);
             btnBorrarLi.TabIndex = 4;
@@ -701,7 +710,7 @@
             // btnActualizarLi
             // 
             btnActualizarLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizarLi.Location = new Point(605, 56);
+            btnActualizarLi.Location = new Point(555, 56);
             btnActualizarLi.Name = "btnActualizarLi";
             btnActualizarLi.Size = new Size(94, 28);
             btnActualizarLi.TabIndex = 3;
@@ -711,7 +720,7 @@
             // btnMostrarLi
             // 
             btnMostrarLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnMostrarLi.Location = new Point(450, 56);
+            btnMostrarLi.Location = new Point(400, 56);
             btnMostrarLi.Name = "btnMostrarLi";
             btnMostrarLi.Size = new Size(94, 28);
             btnMostrarLi.TabIndex = 2;
@@ -721,7 +730,7 @@
             // btnBuscarLi
             // 
             btnBuscarLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBuscarLi.Location = new Point(288, 56);
+            btnBuscarLi.Location = new Point(238, 56);
             btnBuscarLi.Name = "btnBuscarLi";
             btnBuscarLi.Size = new Size(94, 28);
             btnBuscarLi.TabIndex = 1;
@@ -731,7 +740,7 @@
             // btnCrearLi
             // 
             btnCrearLi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCrearLi.Location = new Point(132, 56);
+            btnCrearLi.Location = new Point(82, 56);
             btnCrearLi.Name = "btnCrearLi";
             btnCrearLi.Size = new Size(94, 28);
             btnCrearLi.TabIndex = 0;
@@ -743,7 +752,7 @@
             groupBox1.Controls.Add(lblFotoLIbro);
             groupBox1.Controls.Add(cbxEstado);
             groupBox1.Controls.Add(cbxNovedad);
-            groupBox1.Controls.Add(button8);
+            groupBox1.Controls.Add(btn_Imagen_Lib);
             groupBox1.Controls.Add(txtCosto);
             groupBox1.Controls.Add(txtTitulo);
             groupBox1.Controls.Add(txtIsbn);
@@ -790,15 +799,15 @@
             cbxNovedad.Size = new Size(253, 27);
             cbxNovedad.TabIndex = 16;
             // 
-            // button8
+            // btn_Imagen_Lib
             // 
-            button8.Location = new Point(387, 219);
-            button8.Margin = new Padding(3, 4, 3, 4);
-            button8.Name = "button8";
-            button8.Size = new Size(34, 31);
-            button8.TabIndex = 14;
-            button8.Text = "...";
-            button8.UseVisualStyleBackColor = true;
+            btn_Imagen_Lib.Location = new Point(387, 219);
+            btn_Imagen_Lib.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Lib.Name = "btn_Imagen_Lib";
+            btn_Imagen_Lib.Size = new Size(34, 31);
+            btn_Imagen_Lib.TabIndex = 14;
+            btn_Imagen_Lib.Text = "...";
+            btn_Imagen_Lib.UseVisualStyleBackColor = true;
             // 
             // txtCosto
             // 
@@ -897,6 +906,7 @@
             tabAutores.BackColor = Color.Transparent;
             tabAutores.Controls.Add(lblFotoAutor);
             tabAutores.Controls.Add(textBox9);
+            tabAutores.Controls.Add(btnBuscarAutor);
             tabAutores.Controls.Add(btn_Autor_LimpiarPic);
             tabAutores.Controls.Add(btn_Autor_EliminarPic);
             tabAutores.Controls.Add(btn_Autor_ModificarPic);
@@ -940,6 +950,16 @@
             textBox9.Name = "textBox9";
             textBox9.Size = new Size(657, 648);
             textBox9.TabIndex = 20;
+            // 
+            // btnBuscarAutor
+            // 
+            btnBuscarAutor.Font = new Font("Segoe UI", 9F);
+            btnBuscarAutor.Location = new Point(228, 748);
+            btnBuscarAutor.Name = "btnBuscarAutor";
+            btnBuscarAutor.Size = new Size(94, 28);
+            btnBuscarAutor.TabIndex = 60;
+            btnBuscarAutor.Text = "Buscar";
+            btnBuscarAutor.UseVisualStyleBackColor = true;
             // 
             // btn_Autor_LimpiarPic
             // 
@@ -1153,6 +1173,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(btnLimpiarPrestamo);
             groupBox5.Controls.Add(btnBorrarrPres);
             groupBox5.Controls.Add(btnActualizarPres);
             groupBox5.Controls.Add(btnMostrarPres);
@@ -1165,10 +1186,20 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "Acciones";
             // 
+            // btnLimpiarPrestamo
+            // 
+            btnLimpiarPrestamo.Font = new Font("Segoe UI", 9F);
+            btnLimpiarPrestamo.Location = new Point(867, 56);
+            btnLimpiarPrestamo.Name = "btnLimpiarPrestamo";
+            btnLimpiarPrestamo.Size = new Size(94, 28);
+            btnLimpiarPrestamo.TabIndex = 60;
+            btnLimpiarPrestamo.Text = "Limpiar";
+            btnLimpiarPrestamo.UseVisualStyleBackColor = true;
+            // 
             // btnBorrarrPres
             // 
             btnBorrarrPres.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBorrarrPres.Location = new Point(761, 56);
+            btnBorrarrPres.Location = new Point(711, 56);
             btnBorrarrPres.Name = "btnBorrarrPres";
             btnBorrarrPres.Size = new Size(94, 28);
             btnBorrarrPres.TabIndex = 4;
@@ -1178,7 +1209,7 @@
             // btnActualizarPres
             // 
             btnActualizarPres.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizarPres.Location = new Point(605, 56);
+            btnActualizarPres.Location = new Point(555, 56);
             btnActualizarPres.Name = "btnActualizarPres";
             btnActualizarPres.Size = new Size(94, 28);
             btnActualizarPres.TabIndex = 3;
@@ -1188,7 +1219,7 @@
             // btnMostrarPres
             // 
             btnMostrarPres.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnMostrarPres.Location = new Point(450, 56);
+            btnMostrarPres.Location = new Point(400, 56);
             btnMostrarPres.Name = "btnMostrarPres";
             btnMostrarPres.Size = new Size(94, 28);
             btnMostrarPres.TabIndex = 2;
@@ -1198,7 +1229,7 @@
             // btnBuscarPres
             // 
             btnBuscarPres.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBuscarPres.Location = new Point(288, 56);
+            btnBuscarPres.Location = new Point(238, 56);
             btnBuscarPres.Name = "btnBuscarPres";
             btnBuscarPres.Size = new Size(94, 28);
             btnBuscarPres.TabIndex = 1;
@@ -1208,7 +1239,7 @@
             // btnCrearPres
             // 
             btnCrearPres.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCrearPres.Location = new Point(132, 56);
+            btnCrearPres.Location = new Point(82, 56);
             btnCrearPres.Name = "btnCrearPres";
             btnCrearPres.Size = new Size(94, 28);
             btnCrearPres.TabIndex = 0;
@@ -1222,7 +1253,7 @@
             groupBox6.Controls.Add(label41);
             groupBox6.Controls.Add(cbxEstadoLi);
             groupBox6.Controls.Add(cbxStatus);
-            groupBox6.Controls.Add(button14);
+            groupBox6.Controls.Add(btn_Imagen_Prest);
             groupBox6.Controls.Add(txtLibro);
             groupBox6.Controls.Add(txtUsuario);
             groupBox6.Controls.Add(txtID);
@@ -1290,15 +1321,15 @@
             cbxStatus.Size = new Size(253, 27);
             cbxStatus.TabIndex = 16;
             // 
-            // button14
+            // btn_Imagen_Prest
             // 
-            button14.Location = new Point(387, 260);
-            button14.Margin = new Padding(3, 4, 3, 4);
-            button14.Name = "button14";
-            button14.Size = new Size(34, 31);
-            button14.TabIndex = 14;
-            button14.Text = "...";
-            button14.UseVisualStyleBackColor = true;
+            btn_Imagen_Prest.Location = new Point(387, 260);
+            btn_Imagen_Prest.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Prest.Name = "btn_Imagen_Prest";
+            btn_Imagen_Prest.Size = new Size(34, 31);
+            btn_Imagen_Prest.TabIndex = 14;
+            btn_Imagen_Prest.Text = "...";
+            btn_Imagen_Prest.UseVisualStyleBackColor = true;
             // 
             // txtLibro
             // 
@@ -1417,21 +1448,23 @@
             // 
             // txtInfoPersona
             // 
-            txtInfoPersona.Enabled = false;
+            txtInfoPersona.Enabled = true;
+            txtInfoPersona.ReadOnly = true;
             txtInfoPersona.Location = new Point(18, 55);
             txtInfoPersona.Multiline = true;
             txtInfoPersona.Name = "txtInfoPersona";
             txtInfoPersona.ScrollBars = ScrollBars.Vertical;
+            txtInfoPersona.WordWrap = false;
             txtInfoPersona.Size = new Size(962, 258);
             txtInfoPersona.TabIndex = 0;
             // 
             // groupBox14
             // 
+            groupBox14.Controls.Add(btnLimpiarPersona);
             groupBox14.Controls.Add(btnBorrarPer);
             groupBox14.Controls.Add(btnActualizarPer);
             groupBox14.Controls.Add(btnMostrarPer);
             groupBox14.Controls.Add(btnBuscarPer);
-            groupBox14.Controls.Add(btnCrearPer);
             groupBox14.Location = new Point(4, 345);
             groupBox14.Name = "groupBox14";
             groupBox14.Size = new Size(1021, 112);
@@ -1439,10 +1472,20 @@
             groupBox14.TabStop = false;
             groupBox14.Text = "Acciones";
             // 
+            // btnLimpiarPersona
+            // 
+            btnLimpiarPersona.Font = new Font("Segoe UI", 9F);
+            btnLimpiarPersona.Location = new Point(867, 56);
+            btnLimpiarPersona.Name = "btnLimpiarPersona";
+            btnLimpiarPersona.Size = new Size(94, 28);
+            btnLimpiarPersona.TabIndex = 60;
+            btnLimpiarPersona.Text = "Limpiar";
+            btnLimpiarPersona.UseVisualStyleBackColor = true;
+            // 
             // btnBorrarPer
             // 
             btnBorrarPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBorrarPer.Location = new Point(761, 56);
+            btnBorrarPer.Location = new Point(711, 56);
             btnBorrarPer.Name = "btnBorrarPer";
             btnBorrarPer.Size = new Size(94, 28);
             btnBorrarPer.TabIndex = 4;
@@ -1452,7 +1495,7 @@
             // btnActualizarPer
             // 
             btnActualizarPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizarPer.Location = new Point(605, 56);
+            btnActualizarPer.Location = new Point(555, 56);
             btnActualizarPer.Name = "btnActualizarPer";
             btnActualizarPer.Size = new Size(94, 28);
             btnActualizarPer.TabIndex = 3;
@@ -1462,7 +1505,7 @@
             // btnMostrarPer
             // 
             btnMostrarPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnMostrarPer.Location = new Point(450, 56);
+            btnMostrarPer.Location = new Point(400, 56);
             btnMostrarPer.Name = "btnMostrarPer";
             btnMostrarPer.Size = new Size(94, 28);
             btnMostrarPer.TabIndex = 2;
@@ -1472,22 +1515,12 @@
             // btnBuscarPer
             // 
             btnBuscarPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBuscarPer.Location = new Point(288, 56);
+            btnBuscarPer.Location = new Point(238, 56);
             btnBuscarPer.Name = "btnBuscarPer";
             btnBuscarPer.Size = new Size(94, 28);
             btnBuscarPer.TabIndex = 1;
             btnBuscarPer.Text = "Buscar";
             btnBuscarPer.UseVisualStyleBackColor = true;
-            // 
-            // btnCrearPer
-            // 
-            btnCrearPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCrearPer.Location = new Point(132, 56);
-            btnCrearPer.Name = "btnCrearPer";
-            btnCrearPer.Size = new Size(94, 28);
-            btnCrearPer.TabIndex = 0;
-            btnCrearPer.Text = "Crear";
-            btnCrearPer.UseVisualStyleBackColor = true;
             // 
             // groupBox15
             // 
@@ -1497,7 +1530,7 @@
             groupBox15.Controls.Add(txtCorreoPer);
             groupBox15.Controls.Add(label13);
             groupBox15.Controls.Add(cbxEstadoPer);
-            groupBox15.Controls.Add(button9);
+            groupBox15.Controls.Add(btn_Imagen_Pers);
             groupBox15.Controls.Add(txtNombreCPer);
             groupBox15.Controls.Add(textBox4);
             groupBox15.Controls.Add(txtImagenPer);
@@ -1562,21 +1595,22 @@
             // 
             cbxEstadoPer.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoPer.FormattingEnabled = true;
-            cbxEstadoPer.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoPer.Items.AddRange(new object[] { "Activo", "Egresado", "Bloqueado" });
             cbxEstadoPer.Location = new Point(126, 200);
             cbxEstadoPer.Name = "cbxEstadoPer";
             cbxEstadoPer.Size = new Size(253, 27);
             cbxEstadoPer.TabIndex = 17;
+            cbxEstadoPer.SelectedIndex = 0;
             // 
-            // button9
+            // btn_Imagen_Pers
             // 
-            button9.Location = new Point(387, 234);
-            button9.Margin = new Padding(3, 4, 3, 4);
-            button9.Name = "button9";
-            button9.Size = new Size(34, 31);
-            button9.TabIndex = 14;
-            button9.Text = "...";
-            button9.UseVisualStyleBackColor = true;
+            btn_Imagen_Pers.Location = new Point(387, 234);
+            btn_Imagen_Pers.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Pers.Name = "btn_Imagen_Pers";
+            btn_Imagen_Pers.Size = new Size(34, 31);
+            btn_Imagen_Pers.TabIndex = 14;
+            btn_Imagen_Pers.Text = "...";
+            btn_Imagen_Pers.UseVisualStyleBackColor = true;
             // 
             // txtNombreCPer
             // 
@@ -1647,13 +1681,14 @@
             tabGenero.BackColor = Color.Transparent;
             tabGenero.Controls.Add(lblFotoGenero);
             tabGenero.Controls.Add(textBox10);
+            tabGenero.Controls.Add(btnBuscarGenero);
             tabGenero.Controls.Add(btn_GenLimpiar);
             tabGenero.Controls.Add(btn_GenEliminar);
             tabGenero.Controls.Add(btn_GenModificar);
             tabGenero.Controls.Add(btn_GenAgregar);
-            tabGenero.Controls.Add(button6);
+            tabGenero.Controls.Add(btn_Imagen_Gene);
             tabGenero.Controls.Add(ckB_Genero_Activo);
-            tabGenero.Controls.Add(textBox7);
+            tabGenero.Controls.Add(txb_RutaIma_Gen);
             tabGenero.Controls.Add(txB_GenDescripcion);
             tabGenero.Controls.Add(txB_GenNombre);
             tabGenero.Controls.Add(txB_IDGenero);
@@ -1686,6 +1721,16 @@
             textBox10.Name = "textBox10";
             textBox10.Size = new Size(657, 648);
             textBox10.TabIndex = 21;
+            // 
+            // btnBuscarGenero
+            // 
+            btnBuscarGenero.Font = new Font("Segoe UI", 9F);
+            btnBuscarGenero.Location = new Point(242, 753);
+            btnBuscarGenero.Name = "btnBuscarGenero";
+            btnBuscarGenero.Size = new Size(94, 28);
+            btnBuscarGenero.TabIndex = 60;
+            btnBuscarGenero.Text = "Buscar";
+            btnBuscarGenero.UseVisualStyleBackColor = true;
             // 
             // btn_GenLimpiar
             // 
@@ -1732,15 +1777,15 @@
             btn_GenAgregar.UseVisualStyleBackColor = true;
             btn_GenAgregar.Click += btn_GenAgregar_Click;
             // 
-            // button6
+            // btn_Imagen_Gene
             // 
-            button6.Location = new Point(241, 447);
-            button6.Margin = new Padding(3, 4, 3, 4);
-            button6.Name = "button6";
-            button6.Size = new Size(38, 31);
-            button6.TabIndex = 10;
-            button6.Text = "...";
-            button6.UseVisualStyleBackColor = true;
+            btn_Imagen_Gene.Location = new Point(241, 447);
+            btn_Imagen_Gene.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Gene.Name = "btn_Imagen_Gene";
+            btn_Imagen_Gene.Size = new Size(38, 31);
+            btn_Imagen_Gene.TabIndex = 10;
+            btn_Imagen_Gene.Text = "...";
+            btn_Imagen_Gene.UseVisualStyleBackColor = true;
             // 
             // ckB_Genero_Activo
             // 
@@ -1756,15 +1801,15 @@
             ckB_Genero_Activo.Text = "Activo";
             ckB_Genero_Activo.UseVisualStyleBackColor = true;
             // 
-            // textBox7
+            // txb_RutaIma_Gen
             // 
-            textBox7.BackColor = SystemColors.ButtonHighlight;
-            textBox7.Location = new Point(15, 447);
-            textBox7.Margin = new Padding(3, 4, 3, 4);
-            textBox7.Name = "textBox7";
-            textBox7.ReadOnly = true;
-            textBox7.Size = new Size(219, 28);
-            textBox7.TabIndex = 8;
+            txb_RutaIma_Gen.BackColor = SystemColors.ButtonHighlight;
+            txb_RutaIma_Gen.Location = new Point(15, 447);
+            txb_RutaIma_Gen.Margin = new Padding(3, 4, 3, 4);
+            txb_RutaIma_Gen.Name = "txb_RutaIma_Gen";
+            txb_RutaIma_Gen.ReadOnly = true;
+            txb_RutaIma_Gen.Size = new Size(219, 28);
+            txb_RutaIma_Gen.TabIndex = 8;
             // 
             // txB_GenDescripcion
             // 
@@ -1838,18 +1883,19 @@
             tabReserva.Controls.Add(dtpFechaReserva);
             tabReserva.Controls.Add(label74);
             tabReserva.Controls.Add(label73);
-            tabReserva.Controls.Add(textBox12);
+            tabReserva.Controls.Add(txb_librorsrva_CReserva);
             tabReserva.Controls.Add(lblFotoREserva);
             tabReserva.Controls.Add(txtInfoReserva);
             tabReserva.Controls.Add(btnLimpiarReserva);
             tabReserva.Controls.Add(btnEliminarReserva);
+            tabReserva.Controls.Add(btnBuscarReserva);
             tabReserva.Controls.Add(btnModificarReserva);
             tabReserva.Controls.Add(btnCrearReserva);
-            tabReserva.Controls.Add(button10);
+            tabReserva.Controls.Add(btn_Imagen_Reser);
             tabReserva.Controls.Add(chbEstado);
             tabReserva.Controls.Add(txtImagenREserva);
-            tabReserva.Controls.Add(textBox5);
-            tabReserva.Controls.Add(textBox6);
+            tabReserva.Controls.Add(txB_usuario_CReserva);
+            tabReserva.Controls.Add(txb_ID_Reserva);
             tabReserva.Controls.Add(label69);
             tabReserva.Controls.Add(label70);
             tabReserva.Controls.Add(label71);
@@ -1904,13 +1950,13 @@
             label73.TabIndex = 45;
             label73.Text = "Fecha de reserva:";
             // 
-            // textBox12
+            // txb_librorsrva_CReserva
             // 
-            textBox12.Location = new Point(19, 181);
-            textBox12.Margin = new Padding(3, 4, 3, 4);
-            textBox12.Name = "textBox12";
-            textBox12.Size = new Size(219, 28);
-            textBox12.TabIndex = 44;
+            txb_librorsrva_CReserva.Location = new Point(19, 181);
+            txb_librorsrva_CReserva.Margin = new Padding(3, 4, 3, 4);
+            txb_librorsrva_CReserva.Name = "txb_librorsrva_CReserva";
+            txb_librorsrva_CReserva.Size = new Size(219, 28);
+            txb_librorsrva_CReserva.TabIndex = 44;
             // 
             // lblFotoREserva
             // 
@@ -1953,6 +1999,16 @@
             btnEliminarReserva.Text = "Eliminar";
             btnEliminarReserva.UseVisualStyleBackColor = true;
             // 
+            // btnBuscarReserva
+            // 
+            btnBuscarReserva.Font = new Font("Segoe UI", 9F);
+            btnBuscarReserva.Location = new Point(246, 717);
+            btnBuscarReserva.Name = "btnBuscarReserva";
+            btnBuscarReserva.Size = new Size(94, 28);
+            btnBuscarReserva.TabIndex = 60;
+            btnBuscarReserva.Text = "Buscar";
+            btnBuscarReserva.UseVisualStyleBackColor = true;
+            // 
             // btnModificarReserva
             // 
             btnModificarReserva.Font = new Font("Segoe UI", 9F);
@@ -1975,15 +2031,15 @@
             btnCrearReserva.Text = "Agregar";
             btnCrearReserva.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // btn_Imagen_Reser
             // 
-            button10.Location = new Point(245, 455);
-            button10.Margin = new Padding(3, 4, 3, 4);
-            button10.Name = "button10";
-            button10.Size = new Size(38, 31);
-            button10.TabIndex = 37;
-            button10.Text = "...";
-            button10.UseVisualStyleBackColor = true;
+            btn_Imagen_Reser.Location = new Point(245, 455);
+            btn_Imagen_Reser.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Reser.Name = "btn_Imagen_Reser";
+            btn_Imagen_Reser.Size = new Size(38, 31);
+            btn_Imagen_Reser.TabIndex = 37;
+            btn_Imagen_Reser.Text = "...";
+            btn_Imagen_Reser.UseVisualStyleBackColor = true;
             // 
             // chbEstado
             // 
@@ -2009,21 +2065,21 @@
             txtImagenREserva.Size = new Size(219, 28);
             txtImagenREserva.TabIndex = 35;
             // 
-            // textBox5
+            // txB_usuario_CReserva
             // 
-            textBox5.Location = new Point(19, 106);
-            textBox5.Margin = new Padding(3, 4, 3, 4);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(219, 28);
-            textBox5.TabIndex = 33;
+            txB_usuario_CReserva.Location = new Point(19, 106);
+            txB_usuario_CReserva.Margin = new Padding(3, 4, 3, 4);
+            txB_usuario_CReserva.Name = "txB_usuario_CReserva";
+            txB_usuario_CReserva.Size = new Size(219, 28);
+            txB_usuario_CReserva.TabIndex = 33;
             // 
-            // textBox6
+            // txb_ID_Reserva
             // 
-            textBox6.Location = new Point(19, 41);
-            textBox6.Margin = new Padding(3, 4, 3, 4);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(219, 28);
-            textBox6.TabIndex = 32;
+            txb_ID_Reserva.Location = new Point(19, 41);
+            txb_ID_Reserva.Margin = new Padding(3, 4, 3, 4);
+            txb_ID_Reserva.Name = "txb_ID_Reserva";
+            txb_ID_Reserva.Size = new Size(219, 28);
+            txb_ID_Reserva.TabIndex = 32;
             // 
             // label69
             // 
@@ -2070,12 +2126,13 @@
             tabMulta.BackColor = Color.Transparent;
             tabMulta.Controls.Add(lblFotoMulta);
             tabMulta.Controls.Add(textBox11);
+            tabMulta.Controls.Add(btnBuscarMulta);
             tabMulta.Controls.Add(btn_Multa_Limpiar);
             tabMulta.Controls.Add(btn_Multa_Eliminar);
             tabMulta.Controls.Add(btn_Multa_Modificar);
             tabMulta.Controls.Add(btn_Multa_Agregar);
-            tabMulta.Controls.Add(button7);
-            tabMulta.Controls.Add(textBox8);
+            tabMulta.Controls.Add(btn_Imagen_Mlta);
+            tabMulta.Controls.Add(txb_RutaIma_Mlta);
             tabMulta.Controls.Add(label28);
             tabMulta.Controls.Add(ckB_MultaEstado);
             tabMulta.Controls.Add(ckB_Multa_Pagada);
@@ -2115,6 +2172,16 @@
             textBox11.Name = "textBox11";
             textBox11.Size = new Size(624, 648);
             textBox11.TabIndex = 23;
+            // 
+            // btnBuscarMulta
+            // 
+            btnBuscarMulta.Font = new Font("Segoe UI", 9F);
+            btnBuscarMulta.Location = new Point(328, 716);
+            btnBuscarMulta.Name = "btnBuscarMulta";
+            btnBuscarMulta.Size = new Size(144, 31);
+            btnBuscarMulta.TabIndex = 60;
+            btnBuscarMulta.Text = "Buscar";
+            btnBuscarMulta.UseVisualStyleBackColor = true;
             // 
             // btn_Multa_Limpiar
             // 
@@ -2160,25 +2227,25 @@
             btn_Multa_Agregar.Text = "Agregar";
             btn_Multa_Agregar.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // btn_Imagen_Mlta
             // 
-            button7.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button7.Location = new Point(281, 411);
-            button7.Margin = new Padding(3, 4, 3, 4);
-            button7.Name = "button7";
-            button7.Size = new Size(39, 31);
-            button7.TabIndex = 16;
-            button7.Text = "...";
-            button7.UseVisualStyleBackColor = true;
+            btn_Imagen_Mlta.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_Imagen_Mlta.Location = new Point(281, 411);
+            btn_Imagen_Mlta.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Mlta.Name = "btn_Imagen_Mlta";
+            btn_Imagen_Mlta.Size = new Size(39, 31);
+            btn_Imagen_Mlta.TabIndex = 16;
+            btn_Imagen_Mlta.Text = "...";
+            btn_Imagen_Mlta.UseVisualStyleBackColor = true;
             // 
-            // textBox8
+            // txb_RutaIma_Mlta
             // 
-            textBox8.Location = new Point(19, 411);
-            textBox8.Margin = new Padding(3, 4, 3, 4);
-            textBox8.Name = "textBox8";
-            textBox8.ReadOnly = true;
-            textBox8.Size = new Size(254, 28);
-            textBox8.TabIndex = 15;
+            txb_RutaIma_Mlta.Location = new Point(19, 411);
+            txb_RutaIma_Mlta.Margin = new Padding(3, 4, 3, 4);
+            txb_RutaIma_Mlta.Name = "txb_RutaIma_Mlta";
+            txb_RutaIma_Mlta.ReadOnly = true;
+            txb_RutaIma_Mlta.Size = new Size(254, 28);
+            txb_RutaIma_Mlta.TabIndex = 15;
             // 
             // label28
             // 
@@ -2359,6 +2426,7 @@
             // 
             // groupBox8
             // 
+            groupBox8.Controls.Add(btnLimpiarEditorial);
             groupBox8.Controls.Add(btnBorarEdi);
             groupBox8.Controls.Add(btnActualizarEdi);
             groupBox8.Controls.Add(btnMostrarEdi);
@@ -2371,10 +2439,20 @@
             groupBox8.TabStop = false;
             groupBox8.Text = "Acciones";
             // 
+            // btnLimpiarEditorial
+            // 
+            btnLimpiarEditorial.Font = new Font("Segoe UI", 9F);
+            btnLimpiarEditorial.Location = new Point(867, 56);
+            btnLimpiarEditorial.Name = "btnLimpiarEditorial";
+            btnLimpiarEditorial.Size = new Size(94, 28);
+            btnLimpiarEditorial.TabIndex = 60;
+            btnLimpiarEditorial.Text = "Limpiar";
+            btnLimpiarEditorial.UseVisualStyleBackColor = true;
+            // 
             // btnBorarEdi
             // 
             btnBorarEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBorarEdi.Location = new Point(761, 56);
+            btnBorarEdi.Location = new Point(711, 56);
             btnBorarEdi.Name = "btnBorarEdi";
             btnBorarEdi.Size = new Size(94, 28);
             btnBorarEdi.TabIndex = 4;
@@ -2384,7 +2462,7 @@
             // btnActualizarEdi
             // 
             btnActualizarEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizarEdi.Location = new Point(605, 56);
+            btnActualizarEdi.Location = new Point(555, 56);
             btnActualizarEdi.Name = "btnActualizarEdi";
             btnActualizarEdi.Size = new Size(94, 28);
             btnActualizarEdi.TabIndex = 3;
@@ -2394,7 +2472,7 @@
             // btnMostrarEdi
             // 
             btnMostrarEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnMostrarEdi.Location = new Point(450, 56);
+            btnMostrarEdi.Location = new Point(400, 56);
             btnMostrarEdi.Name = "btnMostrarEdi";
             btnMostrarEdi.Size = new Size(94, 28);
             btnMostrarEdi.TabIndex = 2;
@@ -2404,7 +2482,7 @@
             // btnBuscarEdi
             // 
             btnBuscarEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBuscarEdi.Location = new Point(288, 56);
+            btnBuscarEdi.Location = new Point(238, 56);
             btnBuscarEdi.Name = "btnBuscarEdi";
             btnBuscarEdi.Size = new Size(94, 28);
             btnBuscarEdi.TabIndex = 1;
@@ -2414,7 +2492,7 @@
             // btnCrearEdi
             // 
             btnCrearEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCrearEdi.Location = new Point(132, 56);
+            btnCrearEdi.Location = new Point(82, 56);
             btnCrearEdi.Name = "btnCrearEdi";
             btnCrearEdi.Size = new Size(94, 28);
             btnCrearEdi.TabIndex = 0;
@@ -2429,7 +2507,7 @@
             groupBox9.Controls.Add(dtpAnioFundacion);
             groupBox9.Controls.Add(label42);
             groupBox9.Controls.Add(cbxEstadoEdi);
-            groupBox9.Controls.Add(button15);
+            groupBox9.Controls.Add(btn_Imagen_Edi);
             groupBox9.Controls.Add(txtPais);
             groupBox9.Controls.Add(txtIDEditorial);
             groupBox9.Controls.Add(txtImagenEdi);
@@ -2497,21 +2575,22 @@
             // 
             cbxEstadoEdi.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoEdi.FormattingEnabled = true;
-            cbxEstadoEdi.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoEdi.Items.AddRange(new object[] { "Activo", "Inactivo", "Bloqueada", "Suspendida" });
             cbxEstadoEdi.Location = new Point(126, 226);
             cbxEstadoEdi.Name = "cbxEstadoEdi";
             cbxEstadoEdi.Size = new Size(253, 27);
             cbxEstadoEdi.TabIndex = 17;
+            cbxEstadoEdi.SelectedIndex = 0;
             // 
-            // button15
+            // btn_Imagen_Edi
             // 
-            button15.Location = new Point(387, 260);
-            button15.Margin = new Padding(3, 4, 3, 4);
-            button15.Name = "button15";
-            button15.Size = new Size(34, 31);
-            button15.TabIndex = 14;
-            button15.Text = "...";
-            button15.UseVisualStyleBackColor = true;
+            btn_Imagen_Edi.Location = new Point(387, 260);
+            btn_Imagen_Edi.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Edi.Name = "btn_Imagen_Edi";
+            btn_Imagen_Edi.Size = new Size(34, 31);
+            btn_Imagen_Edi.TabIndex = 14;
+            btn_Imagen_Edi.Text = "...";
+            btn_Imagen_Edi.UseVisualStyleBackColor = true;
             // 
             // txtPais
             // 
@@ -2632,6 +2711,7 @@
             // 
             // groupBox11
             // 
+            groupBox11.Controls.Add(btnLimpiarAdministrador);
             groupBox11.Controls.Add(btnBorarAdm);
             groupBox11.Controls.Add(btnActualizarAdm);
             groupBox11.Controls.Add(btnMostrarAdm);
@@ -2644,10 +2724,20 @@
             groupBox11.TabStop = false;
             groupBox11.Text = "Acciones";
             // 
+            // btnLimpiarAdministrador
+            // 
+            btnLimpiarAdministrador.Font = new Font("Segoe UI", 9F);
+            btnLimpiarAdministrador.Location = new Point(867, 56);
+            btnLimpiarAdministrador.Name = "btnLimpiarAdministrador";
+            btnLimpiarAdministrador.Size = new Size(94, 28);
+            btnLimpiarAdministrador.TabIndex = 60;
+            btnLimpiarAdministrador.Text = "Limpiar";
+            btnLimpiarAdministrador.UseVisualStyleBackColor = true;
+            // 
             // btnBorarAdm
             // 
             btnBorarAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBorarAdm.Location = new Point(761, 56);
+            btnBorarAdm.Location = new Point(711, 56);
             btnBorarAdm.Name = "btnBorarAdm";
             btnBorarAdm.Size = new Size(94, 28);
             btnBorarAdm.TabIndex = 4;
@@ -2657,7 +2747,7 @@
             // btnActualizarAdm
             // 
             btnActualizarAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizarAdm.Location = new Point(605, 56);
+            btnActualizarAdm.Location = new Point(555, 56);
             btnActualizarAdm.Name = "btnActualizarAdm";
             btnActualizarAdm.Size = new Size(94, 28);
             btnActualizarAdm.TabIndex = 3;
@@ -2667,7 +2757,7 @@
             // btnMostrarAdm
             // 
             btnMostrarAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnMostrarAdm.Location = new Point(450, 56);
+            btnMostrarAdm.Location = new Point(400, 56);
             btnMostrarAdm.Name = "btnMostrarAdm";
             btnMostrarAdm.Size = new Size(94, 28);
             btnMostrarAdm.TabIndex = 2;
@@ -2677,7 +2767,7 @@
             // btnBuscarAdm
             // 
             btnBuscarAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnBuscarAdm.Location = new Point(288, 56);
+            btnBuscarAdm.Location = new Point(238, 56);
             btnBuscarAdm.Name = "btnBuscarAdm";
             btnBuscarAdm.Size = new Size(94, 28);
             btnBuscarAdm.TabIndex = 1;
@@ -2687,7 +2777,7 @@
             // btnCrearAdm
             // 
             btnCrearAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCrearAdm.Location = new Point(132, 56);
+            btnCrearAdm.Location = new Point(82, 56);
             btnCrearAdm.Name = "btnCrearAdm";
             btnCrearAdm.Size = new Size(94, 28);
             btnCrearAdm.TabIndex = 0;
@@ -2707,9 +2797,9 @@
             groupBox12.Controls.Add(lblFotoAdministrador);
             groupBox12.Controls.Add(dtpFechaIngreso);
             groupBox12.Controls.Add(cbxEstadoAdm);
-            groupBox12.Controls.Add(button16);
+            groupBox12.Controls.Add(btn_Imagen_Admin);
             groupBox12.Controls.Add(txtDepartamento);
-            groupBox12.Controls.Add(txtNivelAcc);
+            groupBox12.Controls.Add(cbxNivelAcceso);
             groupBox12.Controls.Add(txtImagenAdm);
             groupBox12.Controls.Add(label50);
             groupBox12.Controls.Add(label51);
@@ -2819,21 +2909,22 @@
             // 
             cbxEstadoAdm.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbxEstadoAdm.FormattingEnabled = true;
-            cbxEstadoAdm.Items.AddRange(new object[] { "Disponible", "Prestado", "Reservado", "Perdido" });
+            cbxEstadoAdm.Items.AddRange(new object[] { "Activo", "Inactivo", "De vacaciones", "Suspendido" });
             cbxEstadoAdm.Location = new Point(474, 168);
             cbxEstadoAdm.Name = "cbxEstadoAdm";
             cbxEstadoAdm.Size = new Size(233, 27);
             cbxEstadoAdm.TabIndex = 17;
+            cbxEstadoAdm.SelectedIndex = 0;
             // 
-            // button16
+            // btn_Imagen_Admin
             // 
-            button16.Location = new Point(702, 202);
-            button16.Margin = new Padding(3, 4, 3, 4);
-            button16.Name = "button16";
-            button16.Size = new Size(34, 31);
-            button16.TabIndex = 14;
-            button16.Text = "...";
-            button16.UseVisualStyleBackColor = true;
+            btn_Imagen_Admin.Location = new Point(702, 202);
+            btn_Imagen_Admin.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_Admin.Name = "btn_Imagen_Admin";
+            btn_Imagen_Admin.Size = new Size(34, 31);
+            btn_Imagen_Admin.TabIndex = 14;
+            btn_Imagen_Admin.Text = "...";
+            btn_Imagen_Admin.UseVisualStyleBackColor = true;
             // 
             // txtDepartamento
             // 
@@ -2843,13 +2934,18 @@
             txtDepartamento.Size = new Size(196, 27);
             txtDepartamento.TabIndex = 8;
             // 
-            // txtNivelAcc
+            // cbxNivelAcceso
             // 
-            txtNivelAcc.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNivelAcc.Location = new Point(511, 46);
-            txtNivelAcc.Name = "txtNivelAcc";
-            txtNivelAcc.Size = new Size(196, 27);
-            txtNivelAcc.TabIndex = 7;
+            cbxNivelAcceso.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxNivelAcceso.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbxNivelAcceso.FormattingEnabled = true;
+            cbxNivelAcceso.Items.AddRange(new object[] { "1 - Básico", "2 - Operador", "3 - Administrador", "4 - Supervisor", "5 - Máximo" });
+            cbxNivelAcceso.Location = new Point(511, 46);
+            cbxNivelAcceso.Name = "cbxNivelAcceso";
+            cbxNivelAcceso.Size = new Size(196, 28);
+            cbxNivelAcceso.TabIndex = 7;
+            cbxNivelAcceso.SelectedIndex = 2;
+
             // 
             // txtImagenAdm
             // 
@@ -2878,6 +2974,17 @@
             label51.Size = new Size(57, 20);
             label51.TabIndex = 4;
             label51.Text = "Estado:";
+            btnBuscarUsuario.Click += btnBuscarUsuarioUI_Click;
+            btnBuscarAutor.Click += btnBuscarAutorUI_Click;
+            btnBuscarGenero.Click += btnBuscarGeneroUI_Click;
+            btnBuscarReserva.Click += btnBuscarReservaUI_Click;
+            btnBuscarMulta.Click += btnBuscarMultaUI_Click;
+            btnLimpiarLibro.Click += btnLimpiarLibroUI_Click;
+            btnLimpiarPrestamo.Click += btnLimpiarPrestamoUI_Click;
+            btnLimpiarPersona.Click += btnLimpiarPersonaUI_Click;
+            btnLimpiarEditorial.Click += btnLimpiarEditorialUI_Click;
+            btnLimpiarAdministrador.Click += btnLimpiarAdministradorUI_Click;
+            btnLimpiarUsuario.Click += btnLimpiarUsuario_Click;
             label51.Click += label51_Click;
             // 
             // label53
@@ -3087,8 +3194,8 @@
         private Label label19;
         private Label label18;
         private CheckBox ckB_Genero_Activo;
-        private TextBox textBox7;
-        private Button button6;
+        private TextBox txb_RutaIma_Gen;
+        private Button btn_Imagen_Gene;
         private Button btn_GenEliminar;
         private Button btn_GenModificar;
         private Button btn_GenAgregar;
@@ -3108,8 +3215,8 @@
         private Label label27;
         private DateTimePicker dTP_Multa_FechaEmision;
         private Button btn_Multa_Agregar;
-        private Button button7;
-        private TextBox textBox8;
+        private Button btn_Imagen_Mlta;
+        private TextBox txb_RutaIma_Mlta;
         private Label label28;
         private Button btn_Multa_Limpiar;
         private Button btn_Multa_Eliminar;
@@ -3130,7 +3237,7 @@
         private Button btnMostrarLi;
         private Button btnBuscarLi;
         private Button btnCrearLi;
-        private Button button8;
+        private Button btn_Imagen_Lib;
         private TextBox txtCosto;
         private TextBox txtTitulo;
         private TextBox txtIsbn;
@@ -3148,7 +3255,7 @@
         private GroupBox groupBox6;
         private ComboBox cbxEstadoLi;
         private ComboBox cbxStatus;
-        private Button button14;
+        private Button btn_Imagen_Prest;
         private TextBox txtLibro;
         private TextBox txtUsuario;
         private TextBox txtID;
@@ -3174,7 +3281,7 @@
         private Label label42;
         private ComboBox cbxEstadoEdi;
         private ComboBox comboBox2;
-        private Button button15;
+        private Button btn_Imagen_Edi;
         private TextBox txtPais;
         private TextBox txtIDEditorial;
         private TextBox txtImagenEdi;
@@ -3196,9 +3303,9 @@
         private GroupBox groupBox12;
         private DateTimePicker dtpFechaIngreso;
         private ComboBox cbxEstadoAdm;
-        private Button button16;
+        private Button btn_Imagen_Admin;
         private TextBox txtDepartamento;
-        private TextBox txtNivelAcc;
+        private ComboBox cbxNivelAcceso;
         private TextBox txtImagenAdm;
         private Label label50;
         private Label label51;
@@ -3222,13 +3329,12 @@
         private Button btnActualizarPer;
         private Button btnMostrarPer;
         private Button btnBuscarPer;
-        private Button btnCrearPer;
         private GroupBox groupBox15;
         private Label label12;
         private TextBox txtCorreoPer;
         private Label label13;
         private ComboBox cbxEstadoPer;
-        private Button button9;
+        private Button btn_Imagen_Pers;
         private TextBox txtNombreCPer;
         private TextBox textBox4;
         private TextBox txtImagenPer;
@@ -3242,11 +3348,21 @@
         private Panel panel1;
         private Label lblFotoUsuario;
         private TextBox txtInfoUsuario;
+        private Button btnBuscarUsuario;
+        private Button btnBuscarAutor;
+        private Button btnBuscarGenero;
+        private Button btnBuscarReserva;
+        private Button btnBuscarMulta;
+        private Button btnLimpiarLibro;
+        private Button btnLimpiarPrestamo;
+        private Button btnLimpiarPersona;
+        private Button btnLimpiarEditorial;
+        private Button btnLimpiarAdministrador;
         private Button btnLimpiarUsuario;
         private Button btnEliminarUsuario;
         private Button btnModificarUsuario;
         private Button btnAgregarUsuario;
-        private Button button5;
+        private Button btn_imagen_Usu;
         private TextBox txtImagenUsuario;
         private Label label56;
         private CheckBox chbEstadoUsuario;
@@ -3261,10 +3377,8 @@
         private Label label60;
         private Label label61;
         private CheckBox chbRol;
-        private TextBox txtMultaAcumulada;
         private TextBox txtIDUsuario;
         private TextBox txtLibrosPrestaodosUsuario;
-        private Label label64;
         private Label label65;
         private Label label66;
         private TextBox txtEdadAdmin;
@@ -3281,17 +3395,17 @@
         private Button btnEliminarReserva;
         private Button btnModificarReserva;
         private Button btnCrearReserva;
-        private Button button10;
+        private Button btn_Imagen_Reser;
         private CheckBox chbEstado;
         private TextBox txtImagenREserva;
-        private TextBox textBox5;
-        private TextBox textBox6;
+        private TextBox txB_usuario_CReserva;
+        private TextBox txb_ID_Reserva;
         private Label label69;
         private Label label70;
         private Label label71;
         private Label label72;
         private Label label73;
-        private TextBox textBox12;
+        private TextBox txb_librorsrva_CReserva;
         private DateTimePicker dtpFechaEntregaReserva;
         private DateTimePicker dtpFechaReserva;
         private Label label74;

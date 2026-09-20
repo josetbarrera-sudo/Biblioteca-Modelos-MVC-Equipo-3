@@ -24,17 +24,6 @@ namespace Biblioteca
         private static readonly List<Multa> _multasUI = new List<Multa>();
         private static readonly List<Genero> _generosUI = new List<Genero>();
         private static readonly List<Prestamos> _prestamosUI = new List<Prestamos>();
-        private ComboBox _cbxNivelAccesoUI;
-        private Button _btnBuscarUsuarioUI;
-        private Button _btnBuscarAutorUI;
-        private Button _btnBuscarGeneroUI;
-        private Button _btnBuscarReservaUI;
-        private Button _btnBuscarMultaUI;
-        private Button _btnLimpiarLibroUI;
-        private Button _btnLimpiarPrestamoUI;
-        private Button _btnLimpiarPersonaUI;
-        private Button _btnLimpiarEditorialUI;
-        private Button _btnLimpiarAdministradorUI;
         private readonly Dictionary<int, string> _estadoEditorialUI = new Dictionary<int, string>();
         private readonly Dictionary<int, string> _estadoAdministradorUI = new Dictionary<int, string>();
         private readonly Dictionary<int, string> _estadoPersonaUI = new Dictionary<int, string>();
@@ -49,25 +38,11 @@ namespace Biblioteca
 
             // Los eventos de Género, Agregar, ya están conectados desde el Designer.
             ConfigurarEventos();
-            ConfigurarNivelAcceso();
-            ConfigurarBotonesBuscar();
-            ConfigurarBotonesLimpiar();
-            AjustarSeparacionBotonesSeisAcciones();
-            ConfigurarPersonaSinCrear();
             ConfigurarEstadosEspeciales();
-            OcultarCapturaMultaUsuario();
             InicializarDatosInterfaz();
         }
 
-        private void ConfigurarPersonaSinCrear()
-        {
-            btnCrearPer.Visible = false;
-            btnCrearPer.Enabled = false;
 
-            // Persona queda con: Buscar -> Mostrar -> Actualizar -> Borrar -> Limpiar.
-            AjustarFilaBotones(
-                btnBuscarPer, btnMostrarPer, btnActualizarPer, btnBorrarPer, _btnLimpiarPersonaUI);
-        }
 
         private void ConfigurarEventos()
         {
@@ -75,8 +50,7 @@ namespace Biblioteca
             btnAgregarUsuario.Click += btnAgregarUsuario_Click;
             btnModificarUsuario.Click += btnModificarUsuario_Click;
             btnEliminarUsuario.Click += btnEliminarUsuario_Click;
-            btnLimpiarUsuario.Click += btnLimpiarUsuario_Click;
-            button5.Click += button5_Click;
+            btn_imagen_Usu.Click += btn_imagen_Usu_Click;
 
             // Libros
             btnCrearLi.Click += btnCrearLi_Click;
@@ -96,7 +70,7 @@ namespace Biblioteca
             btn_GenModificar.Click += btn_GenModificar_Click;
             btn_GenEliminar.Click += btn_GenEliminar_Click;
             btn_GenLimpiar.Click += btn_GenLimpiar_Click;
-            button6.Click += button6_Click;
+            btn_Imagen_Gene.Click += btn_Imagen_Gene_Click;
 
             // Préstamos
             btnCrearPres.Click += btnCrearPres_Click;
@@ -104,21 +78,21 @@ namespace Biblioteca
             btnMostrarPres.Click += btnMostrarPres_Click;
             btnActualizarPres.Click += btnActualizarPres_Click;
             btnBorrarrPres.Click += btnBorrarrPres_Click;
-            button14.Click += button14_Click;
+            btn_Imagen_Prest.Click += btn_Imagen_Prest_Click;
 
             // Reservas
             btnCrearReserva.Click += btnCrearReserva_Click;
             btnModificarReserva.Click += btnModificarReserva_Click;
             btnEliminarReserva.Click += btnEliminarReserva_Click;
             btnLimpiarReserva.Click += btnLimpiarReserva_Click;
-            button10.Click += button10_Click;
+            btn_Imagen_Reser.Click += btn_Imagen_Reser_Click;
 
             // Multas
             btn_Multa_Agregar.Click += btn_Multa_Agregar_Click;
             btn_Multa_Modificar.Click += btn_Multa_Modificar_Click;
             btn_Multa_Eliminar.Click += btn_Multa_Eliminar_Click;
             btn_Multa_Limpiar.Click += btn_Multa_Limpiar_Click;
-            button7.Click += button7_Click;
+            btn_Imagen_Mlta.Click += btn_Imagen_Mlta_Click;
 
             // Editoriales
             btnCrearEdi.Click += btnCrearEdi_Click;
@@ -126,7 +100,7 @@ namespace Biblioteca
             btnMostrarEdi.Click += btnMostrarEdi_Click;
             btnActualizarEdi.Click += btnActualizarEdi_Click;
             btnBorarEdi.Click += btnBorarEdi_Click;
-            button15.Click += button15_Click;
+            btn_Imagen_Edi.Click += btn_Imagen_Edi_Click;
 
             // Administradores
             btnCrearAdm.Click += btnCrearAdm_Click;
@@ -134,7 +108,7 @@ namespace Biblioteca
             btnMostrarAdm.Click += btnMostrarAdm_Click;
             btnActualizarAdm.Click += btnActualizarAdm_Click;
             btnBorarAdm.Click += btnBorarAdm_Click;
-            button16.Click += button16_Click;
+            btn_Imagen_Admin.Click += btn_Imagen_Admin_Click;
 
             // Personas
             // El botón Crear de Persona se oculta porque Persona funciona como
@@ -143,185 +117,27 @@ namespace Biblioteca
             btnMostrarPer.Click += btnMostrarPer_Click;
             btnActualizarPer.Click += btnActualizarPer_Click;
             btnBorrarPer.Click += btnBorrarPer_Click;
-            button9.Click += button9_Click;
+            btn_Imagen_Pers.Click += btn_Imagen_Pers_Click;
         }
 
-        private void ConfigurarBotonesBuscar()
-        {
-            _btnBuscarUsuarioUI = CrearBotonBuscar(btnLimpiarUsuario, "btnBuscarUsuarioUI", btnBuscarUsuarioUI_Click);
-            _btnBuscarAutorUI = CrearBotonBuscar(btn_Autor_LimpiarPic, "btnBuscarAutorUI", btnBuscarAutorUI_Click);
-            _btnBuscarGeneroUI = CrearBotonBuscar(btn_GenLimpiar, "btnBuscarGeneroUI", btnBuscarGeneroUI_Click);
-            // Persona ya tiene el botón Buscar en el Designer.
-            _btnBuscarReservaUI = CrearBotonBuscar(btnModificarReserva, "btnBuscarReservaUI", btnBuscarReservaUI_Click);
-            _btnBuscarMultaUI = CrearBotonBuscar(btn_Multa_Limpiar, "btnBuscarMultaUI", btnBuscarMultaUI_Click);
-        }
-
-        private void ConfigurarBotonesLimpiar()
-        {
-            _btnLimpiarLibroUI = CrearBotonAccion(btnBorrarLi, "btnLimpiarLibroUI", "Limpiar", btnLimpiarLibroUI_Click);
-            _btnLimpiarPrestamoUI = CrearBotonAccion(btnBorrarrPres, "btnLimpiarPrestamoUI", "Limpiar", btnLimpiarPrestamoUI_Click);
-            _btnLimpiarPersonaUI = CrearBotonAccion(btnBorrarPer, "btnLimpiarPersonaUI", "Limpiar", btnLimpiarPersonaUI_Click);
-            _btnLimpiarEditorialUI = CrearBotonAccion(btnBorarEdi, "btnLimpiarEditorialUI", "Limpiar", btnLimpiarEditorialUI_Click);
-            _btnLimpiarAdministradorUI = CrearBotonAccion(btnBorarAdm, "btnLimpiarAdministradorUI", "Limpiar", btnLimpiarAdministradorUI_Click);
-        }
-
-        private void AjustarSeparacionBotonesSeisAcciones()
-        {
-            // Estas vistas tienen seis acciones horizontales:
-            // Crear -> Buscar -> Mostrar -> Actualizar -> Borrar -> Limpiar.
-            // Se conserva la separación original entre botones, pero toda la fila
-            // se desplaza hacia la izquierda si el último botón queda pegado al borde.
-            AjustarFilaBotones(
-                btnCrearLi, btnBuscarLi, btnMostrarLi, btnActualizarLi, btnBorrarLi, _btnLimpiarLibroUI);
-
-            AjustarFilaBotones(
-                btnCrearPres, btnBuscarPres, btnMostrarPres, btnActualizarPres, btnBorrarrPres, _btnLimpiarPrestamoUI);
 
 
-            AjustarFilaBotones(
-                btnCrearEdi, btnBuscarEdi, btnMostrarEdi, btnActualizarEdi, btnBorarEdi, _btnLimpiarEditorialUI);
 
-            AjustarFilaBotones(
-                btnCrearAdm, btnBuscarAdm, btnMostrarAdm, btnActualizarAdm, btnBorarAdm, _btnLimpiarAdministradorUI);
-        }
 
-        private void AjustarFilaBotones(params Button[] botones)
-        {
-            if (botones == null || botones.Length < 2 || botones.Any(b => b == null))
-                return;
 
-            Control contenedor = botones[0].Parent;
-            if (contenedor == null)
-                return;
 
-            // Tomamos la separación que ya tenía el Designer entre los dos primeros.
-            int espacioHorizontal = botones[1].Left - botones[0].Right;
-            if (espacioHorizontal < 0)
-                espacioHorizontal = 8;
 
-            int anchoTotal = botones.Sum(b => b.Width) + espacioHorizontal * (botones.Length - 1);
-            const int margenDerecho = 40;
-            const int margenIzquierdoMinimo = 10;
 
-            // Si la fila queda demasiado cerca del borde derecho, se mueve completa
-            // hacia la izquierda, sin cambiar el espacio entre los botones.
-            int posicionMaxima = contenedor.ClientSize.Width - anchoTotal - margenDerecho;
-            int xInicial = Math.Min(botones[0].Left, posicionMaxima);
-            xInicial = Math.Max(margenIzquierdoMinimo, xInicial);
 
-            int y = botones[0].Top;
-            int x = xInicial;
 
-            foreach (Button boton in botones)
-            {
-                boton.Location = new Point(x, y);
-                x += boton.Width + espacioHorizontal;
-            }
-        }
 
-        private void OcultarCapturaMultaUsuario()
-        {
-            // La multa ya no se captura desde Usuarios.
-            // El monto se obtiene exclusivamente del módulo Multa.
-            txtMultaAcumulada.Visible = false;
-            txtMultaAcumulada.Enabled = false;
-            txtMultaAcumulada.TabStop = false;
 
-            // También ocultamos la etiqueta para que no quede un campo vacío.
-            label64.Visible = false;
 
-            // Subimos el rol para ocupar el espacio que dejó el campo eliminado.
-            chbRol.Location = new Point(chbRol.Left, label64.Top);
-
-            // Se mantiene el resto del diseño sin agregar controles nuevos.
-        }
-
-        private Button CrearBotonBuscar(Button referencia, string nombre, EventHandler evento)
-        {
-            Button boton = new Button
-            {
-                Name = nombre,
-                Text = "Buscar",
-                Size = referencia.Size,
-                Font = referencia.Font,
-                Anchor = referencia.Anchor,
-                TabStop = true
-            };
-
-            Control contenedor = referencia.Parent;
-            int x = referencia.Right + 8;
-            int y = referencia.Top;
-
-            if (x + boton.Width > contenedor.ClientSize.Width)
-            {
-                x = referencia.Left;
-                y = referencia.Bottom + 6;
-            }
-
-            boton.Location = new Point(x, y);
-            boton.Click += evento;
-            contenedor.Controls.Add(boton);
-            boton.BringToFront();
-            return boton;
-        }
-
-        private Button CrearBotonAccion(Button referencia, string nombre, string texto, EventHandler evento)
-        {
-            Button boton = new Button
-            {
-                Name = nombre,
-                Text = texto,
-                Size = referencia.Size,
-                Font = referencia.Font,
-                Anchor = referencia.Anchor,
-                TabStop = true
-            };
-            Control contenedor = referencia.Parent;
-            int x = referencia.Right + 8;
-            int y = referencia.Top;
-            if (x + boton.Width > contenedor.ClientSize.Width)
-            {
-                x = referencia.Left;
-                y = referencia.Bottom + 6;
-            }
-            boton.Location = new Point(x, y);
-            boton.Click += evento;
-            contenedor.Controls.Add(boton);
-            boton.BringToFront();
-            return boton;
-        }
 
         private void ConfigurarEstadosEspeciales()
         {
-            cbxEstadoEdi.Items.Clear();
-            cbxEstadoEdi.Items.AddRange(new object[]
-            {
-                "Activo",
-                "Inactivo",
-                "Bloqueada",
-                "Suspendida"
-            });
-            cbxEstadoEdi.SelectedIndex = 0;
-
-            cbxEstadoAdm.Items.Clear();
-            cbxEstadoAdm.Items.AddRange(new object[]
-            {
-                "Activo",
-                "Inactivo",
-                "De vacaciones",
-                "Suspendido"
-            });
-            cbxEstadoAdm.SelectedIndex = 0;
-
-            cbxEstadoPer.Items.Clear();
-            cbxEstadoPer.Items.AddRange(new object[] { "Activo", "Egresado", "Bloqueado" });
-            cbxEstadoPer.SelectedIndex = 0;
-
-            txtInfoPersona.Enabled = true;
-            txtInfoPersona.ReadOnly = true;
-            txtInfoPersona.Multiline = true;
-            txtInfoPersona.ScrollBars = ScrollBars.Vertical;
-            txtInfoPersona.WordWrap = false;
+            // Los valores visuales de los ComboBox se configuran en Form1.Designer.cs.
+            // Aquí se conserva únicamente la configuración que no corresponde al diseño visual.
         }
 
         private string ObtenerEstadoEditorial(int id, bool esActivo)
@@ -459,10 +275,10 @@ namespace Biblioteca
 
         private void btnBuscarReservaUI_Click(object? sender, EventArgs e)
         {
-            if (!int.TryParse(textBox6.Text.Trim(), out int id)) { MostrarError("El ID de la reserva debe ser un número válido."); return; }
+            if (!int.TryParse(txb_ID_Reserva.Text.Trim(), out int id)) { MostrarError("El ID de la reserva debe ser un número válido."); return; }
             Reserva encontrado = Reserva.ObtenerTodos().Find(r => r.Id == id);
             if (encontrado == null) { MessageBox.Show("No se encontró la reserva.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            textBox6.Text = encontrado.Id.ToString(); textBox5.Text = encontrado.Usuario.Id.ToString(); textBox12.Text = encontrado.LibroReservado.ISBN;
+            txb_ID_Reserva.Text = encontrado.Id.ToString(); txB_usuario_CReserva.Text = encontrado.Usuario.Id.ToString(); txb_librorsrva_CReserva.Text = encontrado.LibroReservado.ISBN;
             dtpFechaReserva.Value = encontrado.FechaReserva; dtpFechaEntregaReserva.Value = encontrado.FechaLimite; txtImagenREserva.Text = encontrado.RutaImagen; chbEstado.Checked = encontrado.Estado;
             CargarImagen(encontrado.RutaImagen, lblFotoREserva);
             MessageBox.Show("Reserva encontrada.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -513,7 +329,7 @@ namespace Biblioteca
             txB_IDGenero.Text = encontrado.Id.ToString();
             txB_GenNombre.Text = encontrado.Nombre;
             txB_GenDescripcion.Text = encontrado.Descripcion;
-            textBox7.Text = encontrado.RutaImagen;
+            txb_RutaIma_Gen.Text = encontrado.RutaImagen;
             ckB_Genero_Activo.Checked = encontrado.EsActivo;
             CargarImagen(encontrado.RutaImagen, lblFotoGenero);
 
@@ -540,7 +356,7 @@ namespace Biblioteca
             nUD_Multa_MontoBase.Value = encontrada.MontoBase;
             dTP_Multa_FechaEmision.Value = encontrada.FechaEmision;
             ckB_Multa_Pagada.Checked = encontrada.Pagada;
-            textBox8.Text = encontrada.RutaImagen;
+            txb_RutaIma_Mlta.Text = encontrada.RutaImagen;
             ckB_MultaEstado.Checked = encontrada.EsActivo;
 
             if (encontrada.Usuario != null)
@@ -713,7 +529,7 @@ namespace Biblioteca
             if (cmB_Usuario.SelectedItem is Usuarios usuarioSeleccionado)
                 idMulta = usuarioSeleccionado.Id;
 
-            if (int.TryParse(textBox5.Text.Trim(), out int idReservaTemp))
+            if (int.TryParse(txB_usuario_CReserva.Text.Trim(), out int idReservaTemp))
                 idReserva = idReservaTemp;
 
             cmB_Usuario.DataSource = null;
@@ -730,7 +546,7 @@ namespace Biblioteca
 
             // El campo de reserva se maneja por ID escrito manualmente.
             if (idReserva.HasValue)
-                textBox5.Text = idReserva.Value.ToString();
+                txB_usuario_CReserva.Text = idReserva.Value.ToString();
         }
 
         private bool EsDisponible(string texto)
@@ -781,54 +597,26 @@ namespace Biblioteca
             return libros.Count == 0 ? "Sin préstamo de libro relacionado" : string.Join(", ", libros);
         }
 
-        private void ConfigurarNivelAcceso()
-        {
-            // Se conserva txtNivelAcc en el Designer, pero visualmente se sustituye
-            // por un ComboBox sin agregar botones ni modificar el formulario manualmente.
-            if (txtNivelAcc == null || txtNivelAcc.Parent == null)
-                return;
 
-            Control contenedor = txtNivelAcc.Parent;
-            _cbxNivelAccesoUI = new ComboBox();
-            _cbxNivelAccesoUI.Name = "cbxNivelAccesoUI";
-            _cbxNivelAccesoUI.Font = txtNivelAcc.Font;
-            _cbxNivelAccesoUI.Location = txtNivelAcc.Location;
-            _cbxNivelAccesoUI.Size = txtNivelAcc.Size;
-            _cbxNivelAccesoUI.Anchor = txtNivelAcc.Anchor;
-            _cbxNivelAccesoUI.DropDownStyle = ComboBoxStyle.DropDownList;
-            _cbxNivelAccesoUI.Items.AddRange(new object[]
-            {
-                "1 - Básico",
-                "2 - Operador",
-                "3 - Administrador",
-                "4 - Supervisor",
-                "5 - Máximo"
-            });
-
-            contenedor.Controls.Add(_cbxNivelAccesoUI);
-            txtNivelAcc.Visible = false;
-            _cbxNivelAccesoUI.SelectedIndex = 2;
-        }
 
         private bool TryGetNivelAcceso(out int nivel)
         {
             nivel = 0;
-
-            if (_cbxNivelAccesoUI != null && _cbxNivelAccesoUI.SelectedIndex >= 0)
+            if (cbxNivelAcceso.SelectedIndex >= 0)
             {
-                nivel = _cbxNivelAccesoUI.SelectedIndex + 1;
+                nivel = cbxNivelAcceso.SelectedIndex + 1;
                 return true;
             }
-
-            return TryParseInt(txtNivelAcc, "Nivel de acceso", out nivel);
+            MessageBox.Show("Seleccione un nivel de acceso.", "Nivel de acceso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
         }
 
         private void MostrarNivelAcceso(int nivel)
         {
-            if (_cbxNivelAccesoUI != null && nivel >= 1 && nivel <= 5)
-                _cbxNivelAccesoUI.SelectedIndex = nivel - 1;
+            if (cbxNivelAcceso != null && nivel >= 1 && nivel <= 5)
+                cbxNivelAcceso.SelectedIndex = nivel - 1;
             else
-                txtNivelAcc.Text = nivel.ToString();
+                cbxNivelAcceso.Text = nivel.ToString();
         }
 
         // =====================================================
@@ -1008,7 +796,7 @@ namespace Biblioteca
             }
         }
 
-        private void button5_Click(object? sender, EventArgs e)
+        private void btn_imagen_Usu_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
@@ -1200,7 +988,7 @@ namespace Biblioteca
         {
             txtCodigoAdm.Clear(); txtNombreAdmin.Clear(); txtEdadAdmin.Clear(); txtCorreoAdmin.Clear(); txtDepartamento.Clear(); txtImagenAdm.Clear();
             dtpFechaIngreso.Value = DateTime.Now;
-            if (_cbxNivelAccesoUI != null && _cbxNivelAccesoUI.Items.Count > 0) _cbxNivelAccesoUI.SelectedIndex = 2;
+            if (cbxNivelAcceso != null && cbxNivelAcceso.Items.Count > 0) cbxNivelAcceso.SelectedIndex = 2;
             if (cbxEstadoAdm.Items.Count > 0) cbxEstadoAdm.SelectedIndex = 0;
             CargarImagen(string.Empty, lblFotoAdministrador);
         }
@@ -1365,7 +1153,7 @@ namespace Biblioteca
                     id,
                     txB_GenNombre.Text,
                     txB_GenDescripcion.Text,
-                    textBox7.Text,
+                    txb_RutaIma_Gen.Text,
                     ckB_Genero_Activo.Checked
                 );
 
@@ -1399,7 +1187,7 @@ namespace Biblioteca
                     id,
                     txB_GenNombre.Text,
                     txB_GenDescripcion.Text,
-                    textBox7.Text,
+                    txb_RutaIma_Gen.Text,
                     ckB_Genero_Activo.Checked
                 );
 
@@ -1444,17 +1232,17 @@ namespace Biblioteca
             txB_IDGenero.Clear();
             txB_GenNombre.Clear();
             txB_GenDescripcion.Clear();
-            textBox7.Clear();
+            txb_RutaIma_Gen.Clear();
             ckB_Genero_Activo.Checked = true;
             CargarImagen(string.Empty, lblFotoGenero);
         }
 
-        private void button6_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Gene_Click(object? sender, EventArgs e)
         {
             string ruta = SeleccionarImagen(oFD_Genero_RutaImagen);
             if (!string.IsNullOrWhiteSpace(ruta))
             {
-                textBox7.Text = ruta;
+                txb_RutaIma_Gen.Text = ruta;
                 CargarImagen(ruta, lblFotoGenero);
             }
         }
@@ -1607,7 +1395,7 @@ namespace Biblioteca
             }
         }
 
-        private void button14_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Prest_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
@@ -1662,16 +1450,16 @@ namespace Biblioteca
         {
             try
             {
-                if (!TryParseInt(textBox6, "ID de la reserva", out int id))
+                if (!TryParseInt(txb_ID_Reserva, "ID de la reserva", out int id))
                     return;
 
-                if (!TryGetUsuario(textBox5.Text, out Usuarios usuario))
+                if (!TryGetUsuario(txB_usuario_CReserva.Text, out Usuarios usuario))
                 {
                     MostrarError("No se encontró el usuario de la reserva.");
                     return;
                 }
 
-                if (!TryGetLibro(textBox12.Text, out Libros libro))
+                if (!TryGetLibro(txb_librorsrva_CReserva.Text, out Libros libro))
                 {
                     MostrarError("No se encontró el libro reservado por su ISBN.");
                     return;
@@ -1711,7 +1499,7 @@ namespace Biblioteca
         {
             try
             {
-                if (!TryParseInt(textBox6, "ID de la reserva", out int id))
+                if (!TryParseInt(txb_ID_Reserva, "ID de la reserva", out int id))
                     return;
 
                 Reserva existente = Reserva.ObtenerTodos().Find(r => r.Id == id);
@@ -1721,7 +1509,7 @@ namespace Biblioteca
                     return;
                 }
 
-                if (!TryGetUsuario(textBox5.Text, out Usuarios usuario) || !TryGetLibro(textBox12.Text, out Libros libro))
+                if (!TryGetUsuario(txB_usuario_CReserva.Text, out Usuarios usuario) || !TryGetLibro(txb_librorsrva_CReserva.Text, out Libros libro))
                 {
                     MostrarError("Verifica el ID del usuario y el ISBN del libro.");
                     return;
@@ -1755,7 +1543,7 @@ namespace Biblioteca
         {
             try
             {
-                if (!int.TryParse(textBox6.Text.Trim(), out int id))
+                if (!int.TryParse(txb_ID_Reserva.Text.Trim(), out int id))
                 {
                     MostrarError("El ID de la reserva debe ser un número válido.");
                     return;
@@ -1774,9 +1562,9 @@ namespace Biblioteca
 
         private void btnLimpiarReserva_Click(object? sender, EventArgs e)
         {
-            textBox6.Clear();
-            textBox5.Clear();
-            textBox12.Clear();
+            txb_ID_Reserva.Clear();
+            txB_usuario_CReserva.Clear();
+            txb_librorsrva_CReserva.Clear();
             txtImagenREserva.Clear();
             chbEstado.Checked = true;
             dtpFechaReserva.Value = DateTime.Now;
@@ -1784,7 +1572,7 @@ namespace Biblioteca
             CargarImagen(string.Empty, lblFotoREserva);
         }
 
-        private void button10_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Reser_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
@@ -1845,7 +1633,7 @@ namespace Biblioteca
                     nUD_Multa_MontoBase.Value,
                     dTP_Multa_FechaEmision.Value,
                     ckB_Multa_Pagada.Checked,
-                    textBox8.Text,
+                    txb_RutaIma_Mlta.Text,
                     ckB_MultaEstado.Checked
                 );
 
@@ -1892,7 +1680,7 @@ namespace Biblioteca
                     nUD_Multa_MontoBase.Value,
                     dTP_Multa_FechaEmision.Value,
                     ckB_Multa_Pagada.Checked,
-                    textBox8.Text,
+                    txb_RutaIma_Mlta.Text,
                     ckB_MultaEstado.Checked
                 );
 
@@ -1950,16 +1738,16 @@ namespace Biblioteca
             dTP_Multa_FechaEmision.Value = DateTime.Now;
             ckB_Multa_Pagada.Checked = false;
             ckB_MultaEstado.Checked = true;
-            textBox8.Clear();
+            txb_RutaIma_Mlta.Clear();
             CargarImagen(string.Empty, lblFotoMulta);
         }
 
-        private void button7_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Mlta_Click(object? sender, EventArgs e)
         {
             string ruta = SeleccionarImagen(oFD_Multa_RutaImagen);
             if (!string.IsNullOrWhiteSpace(ruta))
             {
-                textBox8.Text = ruta;
+                txb_RutaIma_Mlta.Text = ruta;
                 CargarImagen(ruta, lblFotoMulta);
             }
         }
@@ -2123,7 +1911,7 @@ namespace Biblioteca
             CargarImagen(editorial.RutaImagen, lblFotoEditorial);
         }
 
-        private void button15_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Edi_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
@@ -2279,7 +2067,7 @@ namespace Biblioteca
             }
         }
 
-        private void button16_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Admin_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
@@ -2326,11 +2114,7 @@ namespace Biblioteca
         // PERSONAS
         // =====================================================
 
-        private void btnCrearPer_Click(object? sender, EventArgs e)
-        {
-            // El botón Crear está oculto en Persona. Los usuarios se crean desde Usuarios.
-            MessageBox.Show("Los registros de Persona se obtienen de Usuarios o Autores. Para crear un usuario utiliza la pestaña Usuarios.", "Persona", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+
 
         private void btnBuscarPer_Click(object? sender, EventArgs e)
         {
@@ -2639,7 +2423,7 @@ namespace Biblioteca
             CargarImagen(string.Empty, label12);
         }
 
-        private void button9_Click(object? sender, EventArgs e)
+        private void btn_Imagen_Pers_Click(object? sender, EventArgs e)
         {
             using OpenFileDialog dialogo = new OpenFileDialog();
             string ruta = SeleccionarImagen(dialogo);
