@@ -370,7 +370,7 @@ namespace Biblioteca
         // POLIMORFISMO POR HERENCIA
         // =====================================================
 
-        private string ObtenerInformacionPersonaPolimorfica(Persona persona)
+       private string ObtenerInformacionPersonaPolimorfica(Persona persona)
         {
             // La referencia es Persona, pero el objeto real puede ser Usuarios o Autores.
             Persona referencia = persona;
